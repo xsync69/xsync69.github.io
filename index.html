@@ -13,28 +13,59 @@
   <body>
     <div class="bg"></div>
 
-    <main class="card" role="main">
-      <img id="avatar" class="avatar" alt="Profile picture" src="assets/ace.png" />
-
-      <h1 id="name">Your Name</h1>
-      <p id="bio" class="bio">A short bio about you.</p>
-
-      <div class="discord">
-        <span class="discord-label">Discord</span>
-        <div class="discord-row">
-          <code id="discord-username">@xsync69.</code>
-          <button id="copy-discord" class="btn copy" aria-label="Copy Discord username" title="Copy">
-            Copy
-          </button>
-        </div>
-        <p id="discord-note" class="discord-note"></p>
+  <header class="navbar" role="navigation">
+      <div class="nav-inner">
+        <a href="#home" class="brand" id="brand">xsync69</a>
+        <nav class="nav-links" aria-label="Primary">
+      <a id="contact-link" href="#contact">Contact</a>
+          <a href="#info" data-nav-link>Info</a>
+        </nav>
+        <button id="music-toggle" class="btn music-btn" aria-pressed="false" title="Play or pause background music">
+          Play Music
+        </button>
       </div>
+      <audio id="bg-audio" loop preload="auto"></audio>
+    </header>
 
-      <ul id="links" class="links" aria-label="Links"></ul>
+    <main class="card" role="main">
+      <section id="home-section" class="route route-home">
+        <img id="avatar" class="avatar" alt="Profile picture" src="assets/ace.png" />
 
-      <footer class="footer">
-        <small>© <span id="year"></span> <span id="name-footer">xsync69</span></small>
-      </footer>
+        <h1 id="name">xsync69</h1>
+        <p id="bio" class="bio">no</p>
+
+        <div class="discord">
+          <span class="discord-label">Discord</span>
+          <div class="discord-row">
+            <code id="discord-username">xsync69.</code>
+            <button id="copy-discord" class="btn copy" aria-label="Copy Discord username" title="Copy">
+              Copy
+            </button>
+          </div>
+          <p id="discord-note" class="discord-note"></p>
+        </div>
+
+        <ul id="links" class="links" aria-label="Links"></ul>
+
+        <footer class="footer">
+          <small>© <span id="year"></span> <span id="name-footer">xsync69</span></small>
+        </footer>
+      </section>
+
+      <section id="contact-section" class="route route-contact" hidden>
+        <h1>Contact</h1>
+        <p>Discord: <code id="contact-discord">@username</code></p>
+        <p id="contact-email-wrap" class="bio">Email: <a id="contact-email" href="#">your@email.com</a></p>
+        <p class="bio">You can update contact info in <code>data.json</code>.</p>
+      </section>
+
+      <section id="info-section" class="route route-info" hidden>
+        <h1>Info</h1>
+  <p id="info-bio" class="bio">This is where your info/about text goes.</p>
+  <h3>Products</h3>
+  <ul id="products" class="products"></ul>
+  <p id="info-buy-line" class="bio">DM to buy.</p>
+      </section>
     </main>
 
     <script src="script.js" defer></script>

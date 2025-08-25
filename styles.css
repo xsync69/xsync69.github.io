@@ -34,6 +34,49 @@ body {
   padding: 24px;
 }
 
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+  background: color-mix(in oklab, var(--bg-2), transparent 10%);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.brand {
+  font-weight: 800;
+  text-decoration: none;
+  color: var(--text);
+  letter-spacing: 0.01em;
+}
+.nav-links {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+.nav-links a {
+  text-decoration: none;
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+}
+.nav-links a:hover {
+  border-color: color-mix(in oklab, var(--accent), white 30%);
+  background: color-mix(in oklab, var(--bg-2), white 0%);
+}
+.music-btn { white-space: nowrap; }
+
 .bg {
   position: fixed;
   inset: 0;
@@ -55,12 +98,16 @@ body {
   border: 1px solid var(--border);
   border-radius: 18px;
   padding: 28px;
+  margin-top: 76px; /* space for navbar */
   box-shadow:
     0 20px 60px color-mix(in oklab, black, transparent 84%),
     0 2px 0 color-mix(in oklab, var(--accent), transparent 85%) inset;
   display: grid;
   gap: 18px;
 }
+
+/* Hide/show routes */
+.route[hidden] { display: none; }
 
 .avatar {
   width: 112px;
@@ -191,4 +238,12 @@ code {
 .footer {
   margin-top: 8px;
   color: var(--muted);
+}
+
+/* Info products */
+.products {
+  list-style: disc;
+  padding-left: 20px;
+  display: grid;
+  gap: 6px;
 }

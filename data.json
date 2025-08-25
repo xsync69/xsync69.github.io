@@ -6,5 +6,11 @@
   "accentColor": "#7c3aed",
   "links": [
     { "label": "Discord Server", "url": "https://discord.gg/r5yvt2RxwT" }
+  ],
+  "audio": { "src": "assets/Striker.mp3" },
+  "products": [
+    { "name": "Discord Bot" },
+    { "name": "Discord Tools" },
+    { "name": "Custom Automation" }
   ]
 }
