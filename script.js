@@ -104,7 +104,7 @@
 
   // Optional Discord note for new username format
   if (data.discord && !data.discord.includes('#')) {
-    els.discordNote.textContent = 'Tip: New Discord usernames do not use #0000.';
+    els.discordNote.textContent = 'Dm me to contact.';
   }
 
   // Tiny toast for UX feedback
