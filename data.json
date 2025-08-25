@@ -1,0 +1,13 @@
+{
+  "name": "Your Name",
+  "bio": "A short bio about you. You can change all of this in data.json without touching HTML.",
+  "avatar": "assets/avatar.jpg",
+  "discord": "yourdiscord",
+  "accentColor": "#7c3aed",
+  "links": [
+    { "label": "GitHub", "url": "https://github.com/xsync69" },
+    { "label": "Discord Server", "url": "https://discord.gg/your-invite" },
+    { "label": "Twitter / X", "url": "https://x.com/your-handle" },
+    { "label": "YouTube", "url": "https://youtube.com/@yourchannel" }
+  ]
+}
