@@ -573,17 +573,23 @@ code {
 /* Enhanced responsive design */
 @media (max-width: 768px) {
   .card {
-    margin: 20px;
-    padding: 24px;
+    margin: 20px 10px;
+    padding: 24px 20px;
     max-width: none;
+    margin-top: 90px;
   }
   
   .nav-inner {
     padding: 10px 16px;
+    flex-wrap: wrap;
+    gap: 12px;
   }
   
   .nav-links {
     gap: 8px;
+    order: 3;
+    width: 100%;
+    justify-content: center;
   }
   
   .nav-links a {
@@ -591,13 +597,100 @@ code {
     font-size: 0.9rem;
   }
   
+  .music-btn {
+    order: 2;
+    font-size: 0.85rem;
+    padding: 6px 10px;
+  }
+  
   h1 {
     font-size: clamp(24px, 6vw, 32px);
+    text-align: center;
+  }
+  
+  .bio {
+    font-size: 1rem;
   }
   
   .avatar {
     width: 96px;
     height: 96px;
+    margin: 0 auto;
+  }
+  
+  .discord {
+    padding: 16px;
+  }
+  
+  .link {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+  
+  .link .icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* Reduce water drop frequency on mobile */
+  .water-drop {
+    display: none;
+  }
+  
+  .water-ripple {
+    display: none;
+  }
+  
+  .particle {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 12px;
+  }
+  
+  .card {
+    margin: 10px 0;
+    padding: 20px 16px;
+    border-radius: 20px;
+  }
+  
+  .navbar {
+    padding: 0;
+  }
+  
+  .nav-inner {
+    padding: 8px 12px;
+  }
+  
+  .brand {
+    font-size: 1rem;
+  }
+  
+  h1 {
+    font-size: clamp(20px, 8vw, 28px);
+  }
+  
+  .discord {
+    padding: 12px;
+  }
+  
+  .discord-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  
+  code {
+    text-align: center;
+    padding: 10px 12px;
+  }
+  
+  .btn {
+    width: 100%;
+    text-align: center;
   }
 }
 

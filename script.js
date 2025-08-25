@@ -453,5 +453,42 @@
   window.addEventListener('load', () => {
     const loadTime = performance.now() - perfStart;
     console.log(`🚀 Website loaded in ${loadTime.toFixed(2)}ms`);
+    
+    // Add typing animation to bio
+    const bioElement = els.bio;
+    if (bioElement && bioElement.textContent) {
+      const originalText = bioElement.textContent;
+      bioElement.textContent = '';
+      bioElement.style.borderRight = '2px solid var(--accent)';
+      bioElement.style.animation = 'blink 1s infinite';
+      
+      let i = 0;
+      function typeText() {
+        if (i < originalText.length) {
+          bioElement.textContent += originalText.charAt(i);
+          i++;
+          setTimeout(typeText, 50);
+        } else {
+          // Remove cursor after typing is complete
+          setTimeout(() => {
+            bioElement.style.borderRight = 'none';
+            bioElement.style.animation = 'none';
+          }, 1000);
+        }
+      }
+      
+      // Start typing after a short delay
+      setTimeout(typeText, 500);
+    }
   });
+  
+  // Add blink animation for typing cursor
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes blink {
+      0%, 50% { border-color: var(--accent); }
+      51%, 100% { border-color: transparent; }
+    }
+  `;
+  document.head.appendChild(style);
 })();
