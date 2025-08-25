@@ -64,11 +64,13 @@
   els.themeColorMeta?.setAttribute('content', accent);
 
   // Copy Discord
-  els.copyDiscord?.addEventListener('click', async () => {
+  els.copyDiscord?.addEventListener('click', async (e) => {
+    e.preventDefault();
     const text = data.discord || defaults.discord;
     try {
       await navigator.clipboard.writeText(text);
       toast('Discord username copied!');
+      createRipple(e.clientX, e.clientY);
     } catch {
       toast('Could not copy. Long-press to select.');
     }
@@ -259,4 +261,197 @@
   // Fallback: start on first interaction
   const kickstart = () => { playAudio(); window.removeEventListener('pointerdown', kickstart); };
   window.addEventListener('pointerdown', kickstart, { once: true });
+
+  // Water drop animation system
+  let lastDropTime = 0;
+  const dropCooldown = 150; // Minimum time between drops in ms
+  
+  function createWaterDrop(x, y) {
+    const now = Date.now();
+    if (now - lastDropTime < dropCooldown) return;
+    lastDropTime = now;
+    
+    const drop = document.createElement('div');
+    drop.className = 'water-drop';
+    drop.style.left = (x - 4) + 'px';
+    drop.style.top = (y - 4) + 'px';
+    
+    // Add some randomness to size and animation
+    const size = 6 + Math.random() * 6;
+    drop.style.width = size + 'px';
+    drop.style.height = size + 'px';
+    
+    document.body.appendChild(drop);
+    
+    // Create ripple effect
+    setTimeout(() => createRipple(x, y), 100);
+    
+    // Remove drop after animation
+    setTimeout(() => {
+      if (drop.parentNode) {
+        drop.remove();
+      }
+    }, 2000);
+  }
+  
+  function createRipple(x, y) {
+    const ripple = document.createElement('div');
+    ripple.className = 'water-ripple';
+    ripple.style.left = (x - 50) + 'px';
+    ripple.style.top = (y - 50) + 'px';
+    
+    document.body.appendChild(ripple);
+    
+    // Remove ripple after animation
+    setTimeout(() => {
+      if (ripple.parentNode) {
+        ripple.remove();
+      }
+    }, 1500);
+  }
+  
+  // Track mouse movement for water drops
+  let isMouseMoving = false;
+  let mouseMoveTimeout;
+  
+  document.addEventListener('mousemove', (e) => {
+    // Only create drops when mouse is actually moving (not just hovering)
+    if (!isMouseMoving) {
+      isMouseMoving = true;
+      // Start creating drops with some randomness
+      if (Math.random() > 0.7) {
+        createWaterDrop(e.clientX, e.clientY);
+      }
+    }
+    
+    clearTimeout(mouseMoveTimeout);
+    mouseMoveTimeout = setTimeout(() => {
+      isMouseMoving = false;
+    }, 100);
+  });
+  
+  // Enhanced interactions
+  document.querySelectorAll('.btn, .link').forEach(element => {
+    element.addEventListener('mouseenter', (e) => {
+      createWaterDrop(e.clientX, e.clientY);
+    });
+  });
+
+  // Professional loading animation
+  function showLoading() {
+    const loader = document.createElement('div');
+    loader.className = 'loading-spinner active';
+    loader.innerHTML = '<div class="spinner"></div>';
+    document.body.appendChild(loader);
+    return loader;
+  }
+
+  function hideLoading(loader) {
+    if (loader) {
+      loader.classList.remove('active');
+      setTimeout(() => loader.remove(), 300);
+    }
+  }
+
+  // Success indicator
+  function showSuccess(message) {
+    const indicator = document.createElement('div');
+    indicator.className = 'success-indicator';
+    indicator.textContent = message;
+    document.body.appendChild(indicator);
+    
+    setTimeout(() => indicator.classList.add('show'), 100);
+    setTimeout(() => {
+      indicator.classList.remove('show');
+      setTimeout(() => indicator.remove(), 300);
+    }, 2000);
+  }
+
+  // Enhanced copy functionality with better UX
+  if (els.copyDiscord) {
+    // Remove the old event listener and add enhanced one
+    const newCopyButton = els.copyDiscord.cloneNode(true);
+    els.copyDiscord.parentNode.replaceChild(newCopyButton, els.copyDiscord);
+    
+    newCopyButton.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const loader = showLoading();
+      
+      try {
+        const text = data.discord || defaults.discord;
+        await navigator.clipboard.writeText(text);
+        hideLoading(loader);
+        showSuccess('Discord username copied!');
+        createRipple(e.clientX, e.clientY);
+      } catch {
+        hideLoading(loader);
+        toast('Could not copy. Long-press to select.');
+      }
+    });
+  }
+
+  // Floating particles system
+  function createFloatingParticle() {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * window.innerWidth + 'px';
+    particle.style.top = window.innerHeight + 'px';
+    particle.style.animationDelay = Math.random() * 2 + 's';
+    particle.style.animationDuration = (8 + Math.random() * 4) + 's';
+    
+    document.body.appendChild(particle);
+    
+    setTimeout(() => {
+      if (particle.parentNode) {
+        particle.remove();
+      }
+    }, 12000);
+  }
+
+  // Create particles periodically
+  setInterval(createFloatingParticle, 3000);
+
+  // Enhanced route transitions
+  const originalShowRoute = window.showRoute || function() {};
+  function enhancedShowRoute(hash) {
+    const target = routes[hash] || routes['#home'];
+    
+    // Fade out current route
+    for (const key in routes) {
+      const el = routes[key];
+      if (!el) continue;
+      if (el !== target && !el.hasAttribute('hidden')) {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        setTimeout(() => el.setAttribute('hidden', ''), 200);
+      }
+    }
+    
+    // Fade in target route
+    setTimeout(() => {
+      target.removeAttribute('hidden');
+      target.style.opacity = '0';
+      target.style.transform = 'translateY(20px)';
+      
+      requestAnimationFrame(() => {
+        target.style.opacity = '1';
+        target.style.transform = 'translateY(0)';
+      });
+    }, 200);
+    
+    const base = data.name ? `${data.name}` : 'Profile';
+    const label = hash === '#contact' ? 'Contact' : hash === '#info' ? 'Info' : 'Home';
+    els.pageTitle.textContent = `${base} — ${label}`;
+  }
+
+  // Override the showRoute function
+  window.showRoute = enhancedShowRoute;
+  window.addEventListener('hashchange', () => enhancedShowRoute(location.hash));
+
+  // Performance monitoring
+  const perfStart = performance.now();
+  window.addEventListener('load', () => {
+    const loadTime = performance.now() - perfStart;
+    console.log(`🚀 Website loaded in ${loadTime.toFixed(2)}ms`);
+  });
 })();
