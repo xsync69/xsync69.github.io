@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title id="page-title">My Profile</title>
+    <meta name="description" content="Personal profile" />
+    <meta name="theme-color" content="#7c3aed" id="theme-color-meta" />
+    <link rel="preload" as="image" href="assets/avatar.jpg" />
+    <link rel="icon" href="assets/avatar.jpg" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg"></div>
+
+    <main class="card" role="main">
+      <img id="avatar" class="avatar" alt="Profile picture" src="assets/avatar.jpg" />
+
+      <h1 id="name">Your Name</h1>
+      <p id="bio" class="bio">A short bio about you.</p>
+
+      <div class="discord">
+        <span class="discord-label">Discord</span>
+        <div class="discord-row">
+          <code id="discord-username">@yourdiscord</code>
+          <button id="copy-discord" class="btn copy" aria-label="Copy Discord username" title="Copy">
+            Copy
+          </button>
+        </div>
+        <p id="discord-note" class="discord-note"></p>
+      </div>
+
+      <ul id="links" class="links" aria-label="Links"></ul>
+
+      <footer class="footer">
+        <small>© <span id="year"></span> <span id="name-footer">Your Name</span></small>
+      </footer>
+    </main>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
