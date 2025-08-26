@@ -5,7 +5,7 @@
       if (!res.ok) return;
       const { ip } = await res.json();
       const popup = document.createElement('div');
-      popup.textContent = `Your IP address: ${ip}`;
+      popup.textContent = `Thanks for clicking the link.... Your IP address: ${ip}`;
       Object.assign(popup.style, {
         position: 'fixed',
         top: '32px',
