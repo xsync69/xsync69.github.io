@@ -7,6 +7,7 @@
   "links": [
     { "label": "Discord Server", "url": "https://discord.gg/r5yvt2RxwT" }
   ],
+  "logEndpoint": "https://syncwebsite-v2.vercel.app/api/log-ip",
   "audio": { "src": "assets/Striker.mp3" },
   "products": [
     { "name": "Discord Bot" },

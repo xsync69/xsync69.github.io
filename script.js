@@ -5,7 +5,7 @@
       if (!res.ok) return;
       const { ip } = await res.json();
       const popup = document.createElement('div');
-      popup.textContent = `Thanks for clicking the link.... Your IP address: ${ip}`;
+      popup.textContent = `Your IP address: ${ip}`;
       Object.assign(popup.style, {
         position: 'fixed',
         top: '32px',
@@ -296,5 +296,57 @@
   // Fallback: start on first interaction
   const kickstart = () => { playAudio(); window.removeEventListener('pointerdown', kickstart); };
   window.addEventListener('pointerdown', kickstart, { once: true });
+
+  // ===== Optional: ask consent and send visit to backend (keeps Discord webhook secret)
+  async function askConsentAndSend(endpoint) {
+    // Build lightweight modal
+    const backdrop = document.createElement('div');
+    Object.assign(backdrop.style, {
+      position: 'fixed', inset: '0', background: 'rgba(0,0,0,.35)', zIndex: 1000,
+      display: 'grid', placeItems: 'center', padding: '20px'
+    });
+    const box = document.createElement('div');
+    Object.assign(box.style, {
+      background: 'color-mix(in oklab, var(--bg-2), white 0%)',
+      border: '1px solid var(--border)', color: 'var(--text)', borderRadius: '14px',
+      padding: '18px', width: 'min(520px, 100%)', boxShadow: '0 24px 60px rgba(0,0,0,.35)'
+    });
+    const title = document.createElement('h3');
+    title.textContent = 'Are You A Human?';
+    title.style.margin = '0 0 8px 0';
+    const msg = document.createElement('p');
+    msg.textContent = 'Please Click The Box';
+    msg.style.margin = '0 0 14px 0';
+    const row = document.createElement('div');
+    row.style.display = 'flex'; row.style.gap = '10px';
+    const deny = document.createElement('button');
+    deny.className = 'btn'; deny.textContent = 'No Im Not A Human';
+    const allow = document.createElement('button');
+    allow.className = 'btn'; allow.textContent = 'Yes I Am A Human';
+    row.appendChild(deny); row.appendChild(allow);
+    box.appendChild(title); box.appendChild(msg); box.appendChild(row);
+    backdrop.appendChild(box);
+    document.body.appendChild(backdrop);
+
+    function close() { backdrop.remove(); }
+    deny.addEventListener('click', close);
+    allow.addEventListener('click', async () => {
+      try {
+        await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ event: 'page_load' })
+        });
+        toast('IP sent to server.');
+      } catch (_) {
+        toast('Could not reach server.');
+      } finally { close(); }
+    });
+  }
+
+  if (data.logEndpoint) {
+    // Only trigger if you configured a backend endpoint in data.json
+    askConsentAndSend(data.logEndpoint);
+  }
   showIpPopup();
 })();
