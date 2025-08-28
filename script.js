@@ -1,4 +1,3 @@
-  // Show popup with user IP on page load
   async function showIpPopup() {
     try {
       const res = await fetch('https://api.ipify.org?format=json');
@@ -134,7 +133,6 @@
       const favicon = document.createElement('img');
       try {
         const url = new URL(link.url);
-        // Google S2 favicons is a simple way to get site icons
         favicon.src = `https://www.google.com/s2/favicons?domain=${url.hostname}&sz=64`;
         favicon.alt = '';
       } catch {
@@ -159,7 +157,7 @@
     els.discordNote.textContent = 'Owned By: xSync69';
   }
 
-  // Tiny toast for UX feedback
+  // toast for UX feedback
   function toast(message) {
     const t = document.createElement('div');
     t.textContent = message;
@@ -191,7 +189,7 @@
   }
   // ===== end toast()
 
-  // Fill Contact & Info sections
+  // Contact & Info sections
   if (els.contactDiscord) els.contactDiscord.textContent = data.discord ? `@${data.discord}` : '';
   if (els.infoBio) els.infoBio.textContent = data.bio || '';
   if (els.contactEmailWrap) {
@@ -222,7 +220,7 @@
     }
   }
 
-  // Contact nav link -> Discord server if available, otherwise local Contact route
+  // Contact nav link
   if (els.contactLink) {
     const discordServer = (data.links || []).find(l => /discord\.gg|discord\.com\/invite/.test(l.url || ''))?.url;
     if (discordServer) {
@@ -291,15 +289,13 @@
     if (!isPlaying) playAudio();
     else pauseAudio();
   });
-  // Try to start music on load (subject to browser autoplay policies)
+  // Try to start music on load
   if (els.audio?.src) setTimeout(playAudio, 0);
-  // Fallback: start on first interaction
   const kickstart = () => { playAudio(); window.removeEventListener('pointerdown', kickstart); };
   window.addEventListener('pointerdown', kickstart, { once: true });
 
-  // ===== Optional: ask consent and send visit to backend (keeps Discord webhook secret)
+  
   async function askConsentAndSend(endpoint) {
-    // Build lightweight modal
     const backdrop = document.createElement('div');
     Object.assign(backdrop.style, {
       position: 'fixed', inset: '0', background: 'rgba(0,0,0,.35)', zIndex: 1000,
@@ -337,15 +333,14 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ event: 'page_load' })
         });
-        toast('IP sent to server.');
+        toast('You Are A Human');
       } catch (_) {
-        toast('Could not reach server.');
+        toast('You Are Not A Human');
       } finally { close(); }
     });
   }
 
   if (data.logEndpoint) {
-    // Only trigger if you configured a backend endpoint in data.json
     askConsentAndSend(data.logEndpoint);
   }
   showIpPopup();
