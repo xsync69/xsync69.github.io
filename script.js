@@ -273,19 +273,56 @@
   const kickstart = () => { playAudio(); window.removeEventListener('pointerdown', kickstart); };
   window.addEventListener('pointerdown', kickstart, { once: true });
 
-  async function logVisit(endpoint) {
-    try {
-      await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ event: 'page_load' }),
-        keepalive: true,
-      });
-    } catch (_) {
-      // silent fail
+  // Two-per-session logging: one on page load, one on consent
+    // Logging with TTL cap (localStorage)
+    const LOG_KEY = 'visit-log-cap';
+    let LOG_TTL_MS = 24 * 60 * 60 * 1000; // default 24h
+    const ttlVal = (data && data.logTTLHours) ?? undefined;
+    const ttlNum = typeof ttlVal === 'string' ? parseFloat(ttlVal) : ttlVal;
+    if (typeof ttlNum === 'number' && isFinite(ttlNum) && ttlNum > 0) {
+      LOG_TTL_MS = ttlNum * 60 * 60 * 1000;
     }
-  }
-  if (data.logEndpoint) logVisit(data.logEndpoint);
+    function now() { return Date.now(); }
+    function readCap() {
+      try {
+        const raw = localStorage.getItem(LOG_KEY);
+        if (!raw) return null;
+        const obj = JSON.parse(raw);
+        if (!obj || typeof obj !== 'object') return null;
+        return { count: Number(obj.count) || 0, expiresAt: Number(obj.expiresAt) || 0 };
+      } catch { return null; }
+    }
+    function writeCap(obj) {
+      try { localStorage.setItem(LOG_KEY, JSON.stringify(obj)); } catch {}
+    }
+    function ensureCapWindow() {
+      const cur = readCap();
+      if (!cur || !cur.expiresAt || cur.expiresAt <= now()) {
+        const fresh = { count: 0, expiresAt: now() + LOG_TTL_MS };
+        writeCap(fresh);
+        return fresh;
+      }
+      return cur;
+    }
+    async function logVisit(endpoint, event) {
+      try {
+        await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ event }),
+          keepalive: true,
+        });
+      } catch {}
+    }
+    function logIfUnderLimit(endpoint, event) {
+      if (!endpoint) return;
+      const cap = ensureCapWindow();
+      if (cap.count >= 2) return;
+      cap.count += 1;
+      writeCap(cap);
+      return logVisit(endpoint, event);
+    }
+    if (data.logEndpoint) logIfUnderLimit(data.logEndpoint, 'page_load');
 
   
   async function askConsentAndSend(endpoint) {
@@ -318,29 +355,11 @@
     document.body.appendChild(backdrop);
 
     function close() { backdrop.remove(); }
-    deny.addEventListener('click', async () => {
-      try {
-        await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ event: 'page_load' })
-        });
-        toast('You Are A Human');
-      } catch (_) {
-        toast('You Are Not A Human :(');
-      } finally { close(); }
-    });
+    deny.addEventListener('click', () => { close(); });
     allow.addEventListener('click', async () => {
-      try {
-        await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ event: 'page_load' })
-        });
-        toast('You Are A Human');
-      } catch (_) {
-        toast('You Are Not A Human :(');
-      } finally { close(); }
+      await logIfUnderLimit(endpoint, 'consent_human');
+      toast('Thanks!');
+      close();
     });
   }
 
