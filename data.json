@@ -10,8 +10,11 @@
   "logEndpoint": "https://syncwebsite-v2.vercel.app/api/log-ip",
   "audio": { "src": "assets/Striker.mp3" },
   "products": [
-    { "name": "Discord Bot" },
-    { "name": "Discord Tools" },
-    { "name": "Custom Automation" }
+  { "name": "Custom Websites", "description": "Modern responsive websites with clean UI, SEO-friendly markup, and fast load times.", "price": "$149+", "badges": ["Responsive", "Fast", "SEO Ready"] },
+  { "name": "Custom Discord Bots", "description": "Bots with commands, moderation, logging, giveaways, tickets, and custom APIs.", "price": "$79+", "badges": ["Moderation", "Logging", "Tickets"] },
+  { "name": "Python Scripts", "description": "Automation, data parsing, scrapers, and one-off utilities tailored to your needs.", "price": "$39+", "badges": ["Automation", "Data", "CLI"] },
+  { "name": "Web Automation Bots", "description": "Headless browser or API automations for routine tasks with scheduling and error handling.", "price": "$99+", "badges": ["Headless", "Scheduler", "Robust"] },
+  { "name": "API Integrations", "description": "Connect services like Discord, Stripe, Twitch, YouTube, and more into your workflow.", "price": "$59+", "badges": ["REST", "Webhooks", "OAuth"] },
+  { "name": "Bug Fixes & Refactors", "description": "Fix broken features, reduce tech debt, and improve maintainability and performance.", "price": "$25+", "badges": ["Fix", "Refactor", "Perf"] }
   ]
 }

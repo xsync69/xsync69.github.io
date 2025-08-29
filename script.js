@@ -174,14 +174,60 @@
     const products = Array.isArray(data.products) && data.products.length
       ? data.products
       : [
-          { name: 'Discord Bot' },
-          { name: 'Discord Tools' },
-          { name: 'Everything (custom services)' }
+          { name: 'Custom Websites', description: 'Modern, responsive sites with clean code and fast performance.', price: '$149+' },
+          { name: 'Custom Discord Bots', description: 'Tailored bots with commands, moderation, logging, and APIs.', price: '$79+' },
+          { name: 'Python Scripts', description: 'Automation, data processing, scrapers, CLI tools, and utilities.', price: '$39+' },
+          { name: 'Web Automation Bots', description: 'Headless browser or API automations with error handling and scheduling.', price: '$99+' },
+          { name: 'API Integrations', description: 'Connect to Discord, Stripe, Twitch, YouTube, and more.', price: '$59+' },
+          { name: 'Bug Fixes & Refactors', description: 'Fix broken features and improve maintainability.', price: '$25+' }
         ];
     els.products.innerHTML = '';
+    const discordInvite = (data.links || []).find(l => /discord\.gg|discord\.com\/invite/.test(l.url || ''))?.url || '#';
     for (const p of products) {
       const li = document.createElement('li');
-      li.textContent = p.name || String(p);
+      li.className = 'product-item';
+      const top = document.createElement('div');
+      top.className = 'product-top';
+      const title = document.createElement('div');
+      title.className = 'product-name';
+      title.textContent = p.name || String(p);
+      top.appendChild(title);
+      if (p.price) {
+        const price = document.createElement('div');
+        price.className = 'product-price';
+        price.textContent = p.price;
+        top.appendChild(price);
+      }
+      li.appendChild(top);
+      if (Array.isArray(p.badges) && p.badges.length) {
+        const badgesWrap = document.createElement('div');
+        badgesWrap.className = 'product-badges';
+        for (const b of p.badges) {
+          const span = document.createElement('span');
+          span.className = 'badge';
+          span.textContent = b;
+          badgesWrap.appendChild(span);
+        }
+        li.appendChild(badgesWrap);
+      }
+      if (p.description) {
+        const desc = document.createElement('div');
+        desc.className = 'product-desc';
+        desc.textContent = p.description;
+        li.appendChild(desc);
+      }
+      const actions = document.createElement('div');
+      actions.className = 'product-actions';
+      const btn = document.createElement('a');
+      btn.className = 'btn btn-buy';
+      btn.href = p.dmUrl || discordInvite;
+      if (btn.href !== '#') {
+        btn.target = '_blank';
+        btn.rel = 'noopener noreferrer';
+      }
+      btn.textContent = 'DM to buy';
+      actions.appendChild(btn);
+      li.appendChild(actions);
       els.products.appendChild(li);
     }
   }
