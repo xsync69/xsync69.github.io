@@ -66,6 +66,20 @@
   setVar('--accent', accent);
   els.themeColorMeta?.setAttribute('content', accent);
 
+  // Join server links: wire navbar button to first Discord invite in data.links
+  try {
+    const discordInvite = (data.links || []).find(l => /discord\.gg|discord\.com\/invite/.test(l.url || ''))?.url;
+    const joinBtn = document.getElementById('join-server');
+    if (joinBtn && discordInvite) {
+      joinBtn.href = discordInvite;
+      joinBtn.target = '_blank';
+      joinBtn.rel = 'noopener noreferrer';
+    }
+    // hide any in-page join button if it exists
+    const joinHome = document.getElementById('join-server-home');
+    if (joinHome) joinHome.remove();
+  } catch {}
+
   // Copy Discord
   els.copyDiscord?.addEventListener('click', async () => {
     const text = data.discord || defaults.discord;
