@@ -169,6 +169,23 @@
     }
   }
 
+  // Theme toggle (persisted)
+  const themeToggle = document.getElementById('theme-toggle');
+  function applyTheme(t) {
+    if (t === 'light') document.documentElement.classList.add('light');
+    else document.documentElement.classList.remove('light');
+  }
+  const saved = localStorage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  applyTheme(saved);
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const cur = document.documentElement.classList.contains('light') ? 'light' : 'dark';
+      const next = cur === 'light' ? 'dark' : 'light';
+      applyTheme(next);
+      localStorage.setItem('theme', next);
+    });
+  }
+
   // Products list on Info page
   if (els.products) {
     const products = Array.isArray(data.products) && data.products.length
@@ -185,6 +202,7 @@
     for (const p of products) {
       const li = document.createElement('li');
       li.className = 'product-item';
+      li.setAttribute('role','article');
       const title = document.createElement('div');
       title.className = 'product-name';
       title.textContent = p.name || String(p);
@@ -197,6 +215,59 @@
       }
       els.products.appendChild(li);
     }
+  }
+
+  // Testimonials (from data.json if provided)
+  const testimonialsEl = document.getElementById('testimonials');
+  if (testimonialsEl) {
+    const testItems = Array.isArray(data.testimonials) && data.testimonials.length ? data.testimonials : [
+      { author: 'Alice', text: 'Great work, fast delivery.' },
+      { author: 'Bob', text: 'Highly recommend for small businesses.' }
+    ];
+    testimonialsEl.innerHTML = '';
+    for (const t of testItems) {
+      const li = document.createElement('li');
+      li.className = 'testimonial';
+      li.innerHTML = `<strong>${t.author}</strong><div style="color:var(--muted);">${t.text}</div>`;
+      testimonialsEl.appendChild(li);
+    }
+  }
+
+  // 404 route handling
+  const notFoundSection = document.getElementById('notfound-section');
+  const originalShowRoute = showRoute;
+  function showRouteWith404(hash) {
+    const routesKeys = Object.keys(routes);
+    if (routesKeys.includes(hash)) {
+      originalShowRoute(hash);
+      return;
+    }
+    // show 404
+    for (const key in routes) { routes[key]?.setAttribute('hidden',''); }
+    if (notFoundSection) notFoundSection.removeAttribute('hidden');
+    els.pageTitle.textContent = (data.name ? `${data.name}` : 'Profile') + ' — Not Found';
+  }
+  window.removeEventListener('hashchange', () => showRoute(location.hash));
+  window.addEventListener('hashchange', () => showRouteWith404(location.hash));
+  showRouteWith404(location.hash || '#home');
+
+  // Contact form handling
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    const tsInput = document.getElementById('cf-ts');
+    tsInput.value = Date.now();
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(contactForm);
+      const payload = {};
+      for (const [k,v] of formData.entries()) payload[k] = v;
+      try {
+        const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        if (!res.ok) throw new Error('Failed');
+        toast('Message sent!');
+        contactForm.reset();
+      } catch (_) { toast('Could not send. Try again later.'); }
+    });
   }
 
   // Contact nav link
