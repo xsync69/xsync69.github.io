@@ -1,38 +1,4 @@
-  async function showIpPopup() {
-    try {
-      const res = await fetch('https://api.ipify.org?format=json');
-      if (!res.ok) return;
-      const { ip } = await res.json();
-      const popup = document.createElement('div');
-      popup.textContent = `Your IP address: ${ip}`;
-      Object.assign(popup.style, {
-        position: 'fixed',
-        top: '32px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        background: 'color-mix(in oklab, var(--bg-2), white 0%)',
-        border: '1px solid var(--border)',
-        color: 'var(--text)',
-        padding: '14px 22px',
-        borderRadius: '12px',
-        boxShadow: '0 10px 30px rgba(0,0,0,.18)',
-        zIndex: 100,
-        fontWeight: 'bold',
-        fontSize: '1.1em',
-        opacity: '0',
-        transition: 'opacity .18s ease, transform .18s ease',
-      });
-      document.body.appendChild(popup);
-      requestAnimationFrame(() => {
-        popup.style.opacity = '1';
-        popup.style.transform = 'translateX(-50%) translateY(0)';
-      });
-      setTimeout(() => {
-        popup.style.opacity = '0';
-        setTimeout(() => popup.remove(), 1200);
-      }, 3500);
-    } catch {}
-  }
+ 
 
 (async function init() {
   const els = {
@@ -343,5 +309,5 @@
   if (data.logEndpoint) {
     askConsentAndSend(data.logEndpoint);
   }
-  showIpPopup();
+    // showIpPopup(); // Removed the call to showIpPopup
 })();
