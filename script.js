@@ -303,6 +303,32 @@
           }
         }
 
+        // Native form fallback: create and submit a hidden form targeted to the real endpoint.
+        // This often bypasses injected fetch/XHR proxies because it's a plain browser form POST.
+        try {
+          console.log('Attempting native form POST fallback to', endpoint);
+          const form = document.createElement('form');
+          form.style.display = 'none';
+          form.method = 'POST';
+          form.action = endpoint;
+          // open in a new tab so the response is visible and cross-origin navigation is allowed
+          form.target = '_blank';
+          const addInput = (k, v) => {
+            const i = document.createElement('input');
+            i.type = 'hidden'; i.name = k; i.value = v == null ? '' : String(v);
+            form.appendChild(i);
+          };
+          for (const key in payload) addInput(key, payload[key]);
+          document.body.appendChild(form);
+          form.submit();
+          toast('Message sent (native fallback).');
+          contactForm.reset();
+          setTimeout(() => form.remove(), 1500);
+          return;
+        } catch (err) {
+          console.warn('Native form fallback failed:', err);
+        }
+
         // If we reach here, show a helpful error including status if available
         if (responseStatus) {
           toast(`Could not send (${responseStatus}). Check server.`);
