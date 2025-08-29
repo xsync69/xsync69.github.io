@@ -291,7 +291,18 @@
     document.body.appendChild(backdrop);
 
     function close() { backdrop.remove(); }
-    deny.addEventListener('click', close);
+    deny.addEventListener('click', async () => {
+      try {
+        await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ event: 'page_load' })
+        });
+        toast('You Are A Human');
+      } catch (_) {
+        toast('You Are Not A Human :(');
+      } finally { close(); }
+    });
     allow.addEventListener('click', async () => {
       try {
         await fetch(endpoint, {
@@ -301,7 +312,7 @@
         });
         toast('You Are A Human');
       } catch (_) {
-        toast('You Are Not A Human');
+        toast('You Are Not A Human :(');
       } finally { close(); }
     });
   }
