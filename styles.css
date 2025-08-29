@@ -44,7 +44,12 @@ body {
   backdrop-filter: blur(8px);
   background: color-mix(in oklab, var(--bg-2), transparent 10%);
   border-bottom: 1px solid var(--border);
+  transform: translateY(-8px);
+  opacity: 0;
+  animation: navDrop .35s ease-out forwards;
 }
+.cta-row { display: flex; gap: 10px; margin: 8px 0 2px; }
+.cta-large { font-size: 16px; padding: 10px 14px; }
 .nav-inner {
   max-width: 980px;
   margin: 0 auto;
@@ -71,11 +76,46 @@ body {
   border-radius: 8px;
   border: 1px solid transparent;
 }
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  animation: fadeIn .2s ease-out;
+}
+.modal-box {
+  background: color-mix(in oklab, var(--bg-2), white 0%);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 18px;
+  width: min(520px, 100%);
+  box-shadow: 0 24px 60px rgba(0,0,0,.35);
+  transform: translateY(8px);
+  opacity: 0;
+  animation: riseIn .25s ease-out forwards;
+}
+
+@keyframes navDrop { to { transform: translateY(0); opacity: 1; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes riseIn { to { transform: translateY(0); opacity: 1; } }
 .nav-links a:hover {
   border-color: color-mix(in oklab, var(--accent), white 30%);
   background: color-mix(in oklab, var(--bg-2), white 0%);
 }
 .music-btn { white-space: nowrap; }
+.nav-cta {
+  margin-left: 8px;
+  background: color-mix(in oklab, var(--accent), white 80%);
+  border-color: color-mix(in oklab, var(--accent), white 50%);
+}
+.nav-cta:hover {
+  background: color-mix(in oklab, var(--accent), white 70%);
+  box-shadow: 0 6px 20px color-mix(in oklab, var(--accent), transparent 80%);
+}
 
 .bg {
   position: fixed;
@@ -174,17 +214,17 @@ code {
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform .06s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+  transition: transform .08s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
 }
 
 .btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px) scale(1.01);
   border-color: color-mix(in oklab, var(--accent), white 30%);
   box-shadow: 0 6px 20px color-mix(in oklab, var(--accent), transparent 88%);
 }
 
 .btn:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.995);
 }
 
 .links {
@@ -265,12 +305,13 @@ code {
   margin-bottom: 4px;
 }
 .product-price {
-  font-weight: 700;
-  color: var(--text);
-  background: color-mix(in oklab, var(--accent), white 88%);
-  border: 1px solid var(--border);
-  padding: 2px 8px;
-  border-radius: 8px;
+  font-weight: 800;
+  color: color-mix(in oklab, var(--accent), black 10%);
+  background: color-mix(in oklab, var(--accent), white 85%);
+  border: 1px solid color-mix(in oklab, var(--accent), white 40%);
+  padding: 3px 10px;
+  border-radius: 999px;
+  letter-spacing: .02em;
 }
 .product-badges { display: flex; gap: 6px; margin: 6px 0; flex-wrap: wrap; }
 .badge {
