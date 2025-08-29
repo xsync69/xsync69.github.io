@@ -8,6 +8,7 @@
     { "label": "Discord Server", "url": "https://discord.gg/r5yvt2RxwT" }
   ],
   "logEndpoint": "https://syncwebsite-v2.vercel.app/api/log-ip",
+  "contactEndpoint": "https://syncwebsite-v2.vercel.app/api/contact",
   "audio": { "src": "assets/Striker.mp3" },
   "products": [
   { "name": "Custom Websites", "description": "Modern responsive websites with clean UI, SEO-friendly markup, and fast load times.", "price": "$149+", "badges": ["Responsive", "Fast", "SEO Ready"] },
