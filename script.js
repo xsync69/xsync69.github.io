@@ -434,7 +434,20 @@
     });
   }
 
+  // Don't show the consent modal automatically (it can block interaction).
+  // Instead, add a small "Verify" button in the footer to trigger it manually.
   if (data.logEndpoint) {
-    askConsentAndSend(data.logEndpoint);
+    try {
+      const footer = document.querySelector('.footer');
+      if (footer) {
+        const vbtn = document.createElement('button');
+        vbtn.className = 'btn';
+        vbtn.textContent = 'Verify';
+        vbtn.style.marginLeft = '8px';
+        vbtn.title = 'Click to verify as human and allow logging';
+        vbtn.addEventListener('click', () => askConsentAndSend(data.logEndpoint));
+        footer.appendChild(vbtn);
+      }
+    } catch {}
   }
 })();
