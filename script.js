@@ -252,6 +252,7 @@
       try {
         const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:';
         const endpoint = data.contactEndpoint || '/api/contact';
+        console.log('Contact submit ->', endpoint);
         if (isLocal && endpoint === '/api/contact') {
           // local static server won't handle /api/contact - simulate success
           await new Promise(r => setTimeout(r, 250));
@@ -259,19 +260,56 @@
           contactForm.reset();
           return;
         }
-        const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-        if (!res.ok) {
-          // some simple recovery for local servers that return 501
-          if (res.status === 501 && (location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
-            toast('Message sent! (local)');
-            contactForm.reset();
-            return;
-          }
-          throw new Error('Failed');
+
+        // primary attempt using fetch
+        let res;
+        try {
+          res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        } catch (err) {
+          console.warn('fetch failed:', err);
+          // try XHR fallback below
         }
-        toast('Message sent!');
-        contactForm.reset();
-      } catch (_) { toast('Could not send. Try again later.'); }
+
+        // If fetch returned a response, check for proxying or method not allowed
+        if (res && res.ok) {
+          toast('Message sent!');
+          contactForm.reset();
+          return;
+        }
+
+        const responseStatus = res ? res.status : null;
+        const responseUrl = res ? res.url : null;
+
+        // If fetch was intercepted/proxied (response url differs) or 405/501, try XHR fallback
+        const shouldTryXhr = !res || responseStatus === 405 || responseStatus === 501 || (responseUrl && responseUrl.indexOf(endpoint) === -1);
+        if (shouldTryXhr) {
+          try {
+            const xhrResult = await new Promise((resolve, reject) => {
+              const xhr = new XMLHttpRequest();
+              xhr.open('POST', endpoint);
+              xhr.setRequestHeader('Content-Type', 'application/json');
+              xhr.onload = () => resolve({ status: xhr.status, url: xhr.responseURL || endpoint });
+              xhr.onerror = () => reject(new Error('XHR error'));
+              xhr.send(JSON.stringify(payload));
+            });
+            if (xhrResult && xhrResult.status >= 200 && xhrResult.status < 300) {
+              toast('Message sent!');
+              contactForm.reset();
+              return;
+            }
+            console.warn('XHR fallback status', xhrResult && xhrResult.status);
+          } catch (err) {
+            console.warn('XHR fallback failed:', err);
+          }
+        }
+
+        // If we reach here, show a helpful error including status if available
+        if (responseStatus) {
+          toast(`Could not send (${responseStatus}). Check server.`);
+        } else {
+          toast('Could not send. Network error or endpoint blocked.');
+        }
+      } catch (err) { console.error(err); toast('Could not send. Try again later.'); }
     });
   }
 
