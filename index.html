@@ -71,7 +71,110 @@
   <ul id="products" class="products"></ul>
   <p id="info-buy-line" class="bio">DM to buy.</p>
       </section>
+      <div id="admin-entry" hidden style="text-align:center; margin:16px 0;">
+        <button id="open-admin" class="btn">Open Admin Dashboard</button>
+      </div>
     </main>
     <script src="script.js" defer></script>
+    <script>
+      (function () {
+        const params = new URLSearchParams(location.search);
+        if (params.get('admin') === '1') {
+          document.getElementById('admin-entry')?.removeAttribute('hidden');
+          document.getElementById('open-admin')?.addEventListener('click', async () => {
+            const key = prompt('Enter admin key');
+            if (!key) return;
+            try {
+              const res = await fetch(`/api/stats?key=${encodeURIComponent(key)}`);
+              if (!res.ok) throw new Error('Unauthorized or server error');
+              const data = await res.json();
+              const modal = document.createElement('div');
+              modal.className = 'modal-backdrop';
+              const box = document.createElement('div');
+              box.className = 'modal-box';
+              box.style.maxWidth = '820px';
+              const title = document.createElement('h3');
+              title.textContent = 'Admin Stats';
+              const summary = document.createElement('div');
+              summary.style.marginBottom = '10px';
+              summary.innerHTML = `
+                <strong>Total:</strong> ${data.total} &nbsp; 
+                <strong>Unique IPs:</strong> ${data.uniqueIPs} &nbsp; 
+                <strong>Bots:</strong> ${data.bots} &nbsp; 
+                <strong>Humans:</strong> ${data.humans}
+              `;
+              // Table for recent entries
+              const tableWrap = document.createElement('div');
+              tableWrap.style.maxHeight = '60vh';
+              tableWrap.style.overflow = 'auto';
+              const table = document.createElement('table');
+              table.style.width = '100%';
+              table.style.borderCollapse = 'collapse';
+              const thead = document.createElement('thead');
+              const headerRow = document.createElement('tr');
+              ['Time','IP','Country','City','ISP','Bot','Event'].forEach(h => {
+                const th = document.createElement('th');
+                th.textContent = h;
+                th.style.textAlign = 'left';
+                th.style.padding = '6px 8px';
+                th.style.borderBottom = '1px solid var(--border)';
+                headerRow.appendChild(th);
+              });
+              thead.appendChild(headerRow);
+              table.appendChild(thead);
+              const tbody = document.createElement('tbody');
+              (data.recent || []).forEach(it => {
+                const tr = document.createElement('tr');
+                const time = new Date(it.ts || it.ts || Date.now()).toLocaleString();
+                [[time],[it.ip],[it.country||''],[it.city||''],[it.isp||''],[it.bot? 'Yes': 'No'],[it.clientEvent||'']].forEach((v, i) => {
+                  const td = document.createElement('td');
+                  td.textContent = Array.isArray(v) ? v[0] : v;
+                  td.style.padding = '6px 8px';
+                  td.style.borderBottom = '1px solid rgba(0,0,0,.06)';
+                  tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+              });
+              table.appendChild(tbody);
+              tableWrap.appendChild(table);
+
+              const exportBtn = document.createElement('button');
+              exportBtn.className = 'btn';
+              exportBtn.textContent = 'Export CSV';
+              exportBtn.style.margin = '10px 8px 0 0';
+              exportBtn.addEventListener('click', () => {
+                const rows = [['Time','IP','Country','City','ISP','Bot','Event']];
+                (data.recent || []).forEach(it => {
+                  rows.push([
+                    it.ts || '', it.ip || '', it.country || '', it.city || '', it.isp || '', it.bot ? 'Yes' : 'No', it.clientEvent || ''
+                  ]);
+                });
+                const csv = rows.map(r => r.map(c => '"' + String(c).replace(/"/g,'""') + '"').join(',')).join('\n');
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url; a.download = 'recent-logs.csv';
+                document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+              });
+
+              const close = document.createElement('button');
+              close.className = 'btn';
+              close.textContent = 'Close';
+              close.addEventListener('click', () => modal.remove());
+              box.appendChild(title);
+              box.appendChild(summary);
+              box.appendChild(tableWrap);
+              box.appendChild(exportBtn);
+              box.appendChild(close);
+              modal.appendChild(box);
+              modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+              document.body.appendChild(modal);
+            } catch (e) {
+              alert('Failed to load admin stats');
+            }
+          });
+        }
+      })();
+    </script>
   </body>
 </html>
