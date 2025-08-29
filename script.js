@@ -174,49 +174,27 @@
     const products = Array.isArray(data.products) && data.products.length
       ? data.products
       : [
-          { name: 'Custom Websites', description: 'Modern, responsive sites with clean code and fast performance.', price: '$149+' },
-          { name: 'Custom Discord Bots', description: 'Tailored bots with commands, moderation, logging, and APIs.', price: '$79+' },
-          { name: 'Python Scripts', description: 'Automation, data processing, scrapers, CLI tools, and utilities.', price: '$39+' },
-          { name: 'Web Automation Bots', description: 'Headless browser or API automations with error handling and scheduling.', price: '$99+' },
-          { name: 'API Integrations', description: 'Connect to Discord, Stripe, Twitch, YouTube, and more.', price: '$59+' },
-          { name: 'Bug Fixes & Refactors', description: 'Fix broken features and improve maintainability.', price: '$25+' }
+          { name: 'Custom Websites', description: 'Modern, responsive sites (landing pages, portfolios, small business) with clean code and fast performance.' },
+          { name: 'Custom Discord Bots', description: 'Fully tailored bots with commands, moderation, auto-roles, logging, and APIs.' },
+          { name: 'Python Scripts', description: 'Automation, data processing, scrapers, CLI tools, and utilities.' },
+          { name: 'Web Automation Bots', description: 'Headless browser or API-driven automations with error handling and scheduling.' },
+          { name: 'API Integrations', description: 'Connect your app to third-party APIs (Discord, Stripe, Twitch, YouTube, and more).' },
+          { name: 'Bug Fixes & Refactors', description: 'Fix broken features, clean up code, and improve maintainability.' }
         ];
     els.products.innerHTML = '';
-  const discordInvite = (data.links || []).find(l => /discord\.gg|discord\.com\/invite/.test(l.url || ''))?.url || '#';
     for (const p of products) {
       const li = document.createElement('li');
       li.className = 'product-item';
-      const top = document.createElement('div');
-      top.className = 'product-top';
       const title = document.createElement('div');
       title.className = 'product-name';
       title.textContent = p.name || String(p);
-      top.appendChild(title);
-      if (p.price) {
-        const price = document.createElement('div');
-        price.className = 'product-price';
-        price.textContent = p.price;
-        top.appendChild(price);
-      }
-      li.appendChild(top);
-      if (Array.isArray(p.badges) && p.badges.length) {
-        const badgesWrap = document.createElement('div');
-        badgesWrap.className = 'product-badges';
-        for (const b of p.badges) {
-          const span = document.createElement('span');
-          span.className = 'badge';
-          span.textContent = b;
-          badgesWrap.appendChild(span);
-        }
-        li.appendChild(badgesWrap);
-      }
+      li.appendChild(title);
       if (p.description) {
         const desc = document.createElement('div');
         desc.className = 'product-desc';
         desc.textContent = p.description;
         li.appendChild(desc);
       }
-      
       els.products.appendChild(li);
     }
   }
@@ -232,28 +210,6 @@
       els.contactLink.href = '#contact';
       els.contactLink.removeAttribute('target');
       els.contactLink.removeAttribute('rel');
-    }
-  }
-
-  const joinBtn = document.getElementById('join-server');
-  if (joinBtn) {
-    const discordServer = (data.links || []).find(l => /discord\.gg|discord\.com\/invite/.test(l.url || ''))?.url;
-    if (discordServer) {
-      joinBtn.href = discordServer;
-      joinBtn.style.display = '';
-    } else {
-      joinBtn.style.display = 'none';
-    }
-  }
-
-  const joinBtnHome = document.getElementById('join-server-home');
-  if (joinBtnHome) {
-    const discordServer = (data.links || []).find(l => /discord\.gg|discord\.com\/invite/.test(l.url || ''))?.url;
-    if (discordServer) {
-      joinBtnHome.href = discordServer;
-      joinBtnHome.style.display = '';
-    } else {
-      joinBtnHome.style.display = 'none';
     }
   }
 
@@ -317,21 +273,41 @@
   const kickstart = () => { playAudio(); window.removeEventListener('pointerdown', kickstart); };
   window.addEventListener('pointerdown', kickstart, { once: true });
 
+  async function logVisit(endpoint) {
+    try {
+      await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ event: 'page_load' }),
+        keepalive: true,
+      });
+    } catch (_) {
+      // silent fail
+    }
+  }
+  if (data.logEndpoint) logVisit(data.logEndpoint);
+
   
   async function askConsentAndSend(endpoint) {
-  const backdrop = document.createElement('div');
-  backdrop.className = 'modal-backdrop';
-  const box = document.createElement('div');
-  box.className = 'modal-box';
+    const backdrop = document.createElement('div');
+    Object.assign(backdrop.style, {
+      position: 'fixed', inset: '0', background: 'rgba(0,0,0,.35)', zIndex: 1000,
+      display: 'grid', placeItems: 'center', padding: '20px'
+    });
+    const box = document.createElement('div');
+    Object.assign(box.style, {
+      background: 'color-mix(in oklab, var(--bg-2), white 0%)',
+      border: '1px solid var(--border)', color: 'var(--text)', borderRadius: '14px',
+      padding: '18px', width: 'min(520px, 100%)', boxShadow: '0 24px 60px rgba(0,0,0,.35)'
+    });
     const title = document.createElement('h3');
     title.textContent = 'Are You A Human?';
     title.style.margin = '0 0 8px 0';
     const msg = document.createElement('p');
     msg.textContent = 'Please Click The Box';
     msg.style.margin = '0 0 14px 0';
-  const row = document.createElement('div');
-  row.style.display = 'flex';
-  row.style.gap = '10px';
+    const row = document.createElement('div');
+    row.style.display = 'flex'; row.style.gap = '10px';
     const deny = document.createElement('button');
     deny.className = 'btn'; deny.textContent = 'No Im Not A Human';
     const allow = document.createElement('button');
