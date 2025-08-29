@@ -254,7 +254,7 @@
       localStorage.setItem('music-playing', '1');
       updateMusicButton();
     } catch (_) {
-      // autoplay may be blocked until user interacts
+      // autoplay
     }
   }
   function pauseAudio() {
@@ -347,5 +347,4 @@
   if (data.logEndpoint) {
     askConsentAndSend(data.logEndpoint);
   }
-    // showIpPopup(); // Removed the call to showIpPopup
 })();
