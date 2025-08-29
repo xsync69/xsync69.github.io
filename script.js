@@ -24,6 +24,7 @@
   contactEmail: document.getElementById('contact-email'),
   infoBio: document.getElementById('info-bio'),
   products: document.getElementById('products'),
+  notFoundSection: document.getElementById('notfound-section'),
   // audio
   audio: document.getElementById('bg-audio'),
   musicToggle: document.getElementById('music-toggle'),
@@ -177,12 +178,15 @@
   }
   const saved = localStorage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
   applyTheme(saved);
+  // set toggle label to reflect current mode
+  if (themeToggle) themeToggle.textContent = saved === 'light' ? 'Light Mode' : 'Dark Mode';
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
       const cur = document.documentElement.classList.contains('light') ? 'light' : 'dark';
       const next = cur === 'light' ? 'dark' : 'light';
       applyTheme(next);
       localStorage.setItem('theme', next);
+      themeToggle.textContent = next === 'light' ? 'Light Mode' : 'Dark Mode';
     });
   }
 
@@ -221,35 +225,19 @@
   const testimonialsEl = document.getElementById('testimonials');
   if (testimonialsEl) {
     const testItems = Array.isArray(data.testimonials) && data.testimonials.length ? data.testimonials : [
-      { author: 'Alice', text: 'Great work, fast delivery.' },
-      { author: 'Bob', text: 'Highly recommend for small businesses.' }
+      { author: '', text: 'Coming soon.' }
     ];
     testimonialsEl.innerHTML = '';
     for (const t of testItems) {
       const li = document.createElement('li');
       li.className = 'testimonial';
-      li.innerHTML = `<strong>${t.author}</strong><div style="color:var(--muted);">${t.text}</div>`;
+      const author = t.author ? `<strong>${t.author}</strong>` : '';
+      li.innerHTML = `${author}<div style="color:var(--muted);">${t.text}</div>`;
       testimonialsEl.appendChild(li);
     }
   }
 
-  // 404 route handling
-  const notFoundSection = document.getElementById('notfound-section');
-  const originalShowRoute = showRoute;
-  function showRouteWith404(hash) {
-    const routesKeys = Object.keys(routes);
-    if (routesKeys.includes(hash)) {
-      originalShowRoute(hash);
-      return;
-    }
-    // show 404
-    for (const key in routes) { routes[key]?.setAttribute('hidden',''); }
-    if (notFoundSection) notFoundSection.removeAttribute('hidden');
-    els.pageTitle.textContent = (data.name ? `${data.name}` : 'Profile') + ' — Not Found';
-  }
-  window.removeEventListener('hashchange', () => showRoute(location.hash));
-  window.addEventListener('hashchange', () => showRouteWith404(location.hash));
-  showRouteWith404(location.hash || '#home');
+  // 404 route handling moved below after router initialization
 
   // Contact form handling
   const contactForm = document.getElementById('contact-form');
@@ -262,8 +250,25 @@
       const payload = {};
       for (const [k,v] of formData.entries()) payload[k] = v;
       try {
-        const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-        if (!res.ok) throw new Error('Failed');
+        const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:';
+        const endpoint = data.contactEndpoint || '/api/contact';
+        if (isLocal && endpoint === '/api/contact') {
+          // local static server won't handle /api/contact - simulate success
+          await new Promise(r => setTimeout(r, 250));
+          toast('Message sent! (local)');
+          contactForm.reset();
+          return;
+        }
+        const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        if (!res.ok) {
+          // some simple recovery for local servers that return 501
+          if (res.status === 501 && (location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+            toast('Message sent! (local)');
+            contactForm.reset();
+            return;
+          }
+          throw new Error('Failed');
+        }
         toast('Message sent!');
         contactForm.reset();
       } catch (_) { toast('Could not send. Try again later.'); }
@@ -272,24 +277,19 @@
 
   // Contact nav link
   if (els.contactLink) {
-    const discordServer = (data.links || []).find(l => /discord\.gg|discord\.com\/invite/.test(l.url || ''))?.url;
-    if (discordServer) {
-      els.contactLink.href = discordServer;
-      els.contactLink.target = '_blank';
-      els.contactLink.rel = 'noopener noreferrer';
-    } else {
-      els.contactLink.href = '#contact';
-      els.contactLink.removeAttribute('target');
-      els.contactLink.removeAttribute('rel');
-    }
+  // Always route to the internal contact section for the form
+  els.contactLink.href = '#contact';
+  els.contactLink.removeAttribute('target');
+  els.contactLink.removeAttribute('rel');
   }
 
-  // Simple hash router
+  // Simple hash router (with custom 404 handling)
   const routes = {
     '#home': els.homeSection,
     '#contact': els.contactSection,
     '#info': els.infoSection,
   };
+
   function showRoute(hash) {
     const target = routes[hash] || routes['#home'];
     for (const key in routes) {
@@ -298,12 +298,35 @@
       if (el === target) el.removeAttribute('hidden');
       else el.setAttribute('hidden', '');
     }
+    // ensure notfound is hidden when showing a real route
+    if (els.notFoundSection) els.notFoundSection.setAttribute('hidden', '');
     const base = data.name ? `${data.name}` : 'Profile';
     const label = hash === '#contact' ? 'Contact' : hash === '#info' ? 'Info' : 'Home';
     els.pageTitle.textContent = `${base} — ${label}`;
   }
-  window.addEventListener('hashchange', () => showRoute(location.hash));
-  showRoute(location.hash || '#home');
+
+  // Use this after routes is declared to safely show 404 for unknown hashes
+  function showRouteWith404(hash) {
+    if (routes[hash]) {
+      showRoute(hash);
+      return;
+    }
+    // treat empty or home-like hashes as home
+    if (!hash || hash === '' || hash === '#' || hash === '#home') {
+      showRoute('#home');
+      return;
+    }
+    // unknown route -> show custom 404 section
+    for (const key in routes) {
+      const el = routes[key];
+      if (el) el.setAttribute('hidden', '');
+    }
+    if (els.notFoundSection) els.notFoundSection.removeAttribute('hidden');
+    els.pageTitle.textContent = `${data.name ? data.name : 'Profile'} — Not Found`;
+  }
+
+  window.addEventListener('hashchange', () => showRouteWith404(location.hash));
+  showRouteWith404(location.hash || '#home');
 
   // Audio setup and autoplay attempt
   const audioSrc = data.audio?.src || '';
@@ -397,57 +420,42 @@
 
   
   async function askConsentAndSend(endpoint) {
-    const backdrop = document.createElement('div');
-    Object.assign(backdrop.style, {
-      position: 'fixed', inset: '0', background: 'rgba(0,0,0,.35)', zIndex: 1000,
-      display: 'grid', placeItems: 'center', padding: '20px'
-    });
+    // floating, non-blocking consent popup (bottom-right)
+    const wrap = document.createElement('div');
+    wrap.className = 'modal-float';
     const box = document.createElement('div');
-    Object.assign(box.style, {
-      background: 'color-mix(in oklab, var(--bg-2), white 0%)',
-      border: '1px solid var(--border)', color: 'var(--text)', borderRadius: '14px',
-      padding: '18px', width: 'min(520px, 100%)', boxShadow: '0 24px 60px rgba(0,0,0,.35)'
-    });
+    box.className = 'modal-box';
     const title = document.createElement('h3');
-    title.textContent = 'Are You A Human?';
+    title.textContent = 'Quick verification';
     title.style.margin = '0 0 8px 0';
     const msg = document.createElement('p');
-    msg.textContent = 'Please Click The Box';
-    msg.style.margin = '0 0 14px 0';
+    msg.textContent = 'Tap to confirm you are human — this helps reduce bot traffic.';
+    msg.style.margin = '0 0 10px 0';
     const row = document.createElement('div');
-    row.style.display = 'flex'; row.style.gap = '10px';
-    const deny = document.createElement('button');
-    deny.className = 'btn'; deny.textContent = 'No Im Not A Human';
+    row.style.display = 'flex'; row.style.gap = '10px'; row.style.justifyContent = 'flex-end';
     const allow = document.createElement('button');
-    allow.className = 'btn'; allow.textContent = 'Yes I Am A Human';
+    allow.className = 'btn'; allow.textContent = 'I am human';
+    const deny = document.createElement('button');
+    deny.className = 'btn'; deny.textContent = 'Dismiss';
     row.appendChild(deny); row.appendChild(allow);
     box.appendChild(title); box.appendChild(msg); box.appendChild(row);
-    backdrop.appendChild(box);
-    document.body.appendChild(backdrop);
+    wrap.appendChild(box);
+    document.body.appendChild(wrap);
 
-    function close() { backdrop.remove(); }
+    function close() { wrap.remove(); }
     deny.addEventListener('click', () => { close(); });
     allow.addEventListener('click', async () => {
       await logIfUnderLimit(endpoint, 'consent_human');
-      toast('Thanks!');
+      toast('Thanks for verifying!');
       close();
     });
   }
 
-  // Don't show the consent modal automatically (it can block interaction).
-  // Instead, add a small "Verify" button in the footer to trigger it manually.
+  // Auto-open a non-blocking consent popup on load (if log endpoint configured)
   if (data.logEndpoint) {
     try {
-      const footer = document.querySelector('.footer');
-      if (footer) {
-        const vbtn = document.createElement('button');
-        vbtn.className = 'btn';
-        vbtn.textContent = 'Verify';
-        vbtn.style.marginLeft = '8px';
-        vbtn.title = 'Click to verify as human and allow logging';
-        vbtn.addEventListener('click', () => askConsentAndSend(data.logEndpoint));
-        footer.appendChild(vbtn);
-      }
+      // show after a short delay so UI finishes painting
+      setTimeout(() => askConsentAndSend(data.logEndpoint), 600);
     } catch {}
   }
 })();

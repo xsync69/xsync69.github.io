@@ -20,6 +20,31 @@
   }
 }
 
+/* Explicit light theme when JS toggles the class */
+html.light {
+  --bg: #f7f7fb;
+  --bg-2: #ffffff;
+  --text: #11121a;
+  --muted: #4b4e67;
+  --card: #ffffff;
+  --border: #e8e8f0;
+}
+
+/* Non-blocking modal (floating) */
+.modal-float {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1001;
+  display: grid;
+  place-items: end;
+}
+.modal-float .modal-box {
+  transform: none;
+  opacity: 1;
+  animation: none;
+}
+
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 body {
