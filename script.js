@@ -1,4 +1,4 @@
- 
+
 
 (async function init() {
   const els = {
@@ -24,6 +24,7 @@
   contactEmail: document.getElementById('contact-email'),
   infoBio: document.getElementById('info-bio'),
   products: document.getElementById('products'),
+  purchaseSection: document.getElementById('purchase-section'),
   notFoundSection: document.getElementById('notfound-section'),
   // audio
   audio: document.getElementById('bg-audio'),
@@ -221,10 +222,35 @@
       const li = document.createElement('li');
       li.className = 'product-item';
       li.setAttribute('role','article');
+      const top = document.createElement('div'); top.className = 'product-top';
+      const left = document.createElement('div'); left.style.display = 'flex'; left.style.alignItems = 'center';
+      if (p.image) {
+        const img = document.createElement('img'); img.className = 'product-thumb'; img.src = p.image; img.alt = p.name || '';
+        left.appendChild(img);
+      }
       const title = document.createElement('div');
       title.className = 'product-name';
       title.textContent = p.name || String(p);
-      li.appendChild(title);
+      left.appendChild(title);
+      top.appendChild(left);
+      if (p.price) {
+        const price = document.createElement('div'); price.className = 'product-price'; price.textContent = p.price; top.appendChild(price);
+      }
+      li.appendChild(top);
+      if (p.price) {
+        const price = document.createElement('div');
+        price.className = 'product-price';
+        price.textContent = p.price;
+        li.appendChild(price);
+      }
+      if (p.badges && p.badges.length) {
+        const badges = document.createElement('div'); badges.className = 'product-badges';
+        for (const b of p.badges) {
+          const span = document.createElement('span'); span.className = 'badge'; span.textContent = b;
+          badges.appendChild(span);
+        }
+        li.appendChild(badges);
+      }
       if (p.description) {
         const desc = document.createElement('div');
         desc.className = 'product-desc';
@@ -232,6 +258,58 @@
         li.appendChild(desc);
       }
       els.products.appendChild(li);
+    }
+  }
+
+  // Purchase page rendering and buy flow
+  const purchaseList = document.getElementById('purchase-list');
+  if (purchaseList) {
+    const items = Array.isArray(data.products) ? data.products : [];
+    purchaseList.innerHTML = '';
+    // show loading spinner briefly
+    const loader = document.createElement('div'); loader.className = 'purchase-loading';
+    const spinner = document.createElement('div'); spinner.className = 'spinner'; loader.appendChild(spinner);
+    purchaseList.appendChild(loader);
+    await new Promise(r => setTimeout(r, 700));
+    purchaseList.innerHTML = '';
+    for (const p of items) {
+      const card = document.createElement('div');
+      card.className = 'purchase-card';
+      const left = document.createElement('div'); left.className = 'pc-left';
+      if (p.image) {
+        const thumb = document.createElement('img'); thumb.className = 'product-thumb'; thumb.src = p.image; thumb.alt = p.name || '';
+        left.appendChild(thumb);
+      }
+      const meta = document.createElement('div');
+      const name = document.createElement('div'); name.className = 'pc-name'; name.textContent = p.name || 'Product';
+      const desc = document.createElement('div'); desc.className = 'product-desc'; desc.textContent = p.description || '';
+      meta.appendChild(name); meta.appendChild(desc);
+      left.appendChild(meta);
+      const right = document.createElement('div'); right.style.display = 'flex'; right.style.alignItems = 'center'; right.style.gap = '8px';
+      const price = document.createElement('div'); price.className = 'pc-price'; price.textContent = p.price || 'TBD';
+      const buy = document.createElement('button'); buy.className = 'btn btn-buy-now'; buy.textContent = 'Buy';
+      buy.addEventListener('click', () => {
+        // Simple UX: instruct users to add Discord or join server to complete purchase
+        const user = data.discord ? `@${data.discord}` : 'xsync69';
+        const msg = `To buy ${p.name}, please add ${user} on Discord or join the server to arrange payment.`;
+        // Show modal-like toast with action to open Discord invite if available
+        toast(msg);
+        // If a discord invite exists, open it in a new tab for the user to join
+        const invite = (data.links || []).find(l => /discord\.gg|discord\.com\/invite/.test(l.url || ''))?.url;
+        if (invite) {
+          const openBtn = document.createElement('button');
+          openBtn.className = 'btn'; openBtn.textContent = 'Join Server';
+          openBtn.addEventListener('click', () => window.open(invite, '_blank'));
+          // small ephemeral inline prompt
+          const prompt = document.createElement('div'); prompt.style.position = 'fixed'; prompt.style.right = '20px'; prompt.style.bottom = '20px'; prompt.style.zIndex = 1002;
+          prompt.appendChild(openBtn);
+          document.body.appendChild(prompt);
+          setTimeout(() => prompt.remove(), 4000);
+        }
+      });
+      right.appendChild(price); right.appendChild(buy);
+      card.appendChild(left); card.appendChild(right);
+      purchaseList.appendChild(card);
     }
   }
 
@@ -365,7 +443,8 @@
   const routes = {
     '#home': els.homeSection,
     '#contact': els.contactSection,
-    '#info': els.infoSection,
+  '#info': els.infoSection,
+  '#purchase': els.purchaseSection,
   };
 
   function showRoute(hash) {
@@ -379,7 +458,7 @@
     // ensure notfound is hidden when showing a real route
     if (els.notFoundSection) els.notFoundSection.setAttribute('hidden', '');
     const base = data.name ? `${data.name}` : 'Profile';
-    const label = hash === '#contact' ? 'Contact' : hash === '#info' ? 'Info' : 'Home';
+  const label = hash === '#contact' ? 'Contact' : hash === '#info' ? 'Info' : hash === '#purchase' ? 'Purchase' : 'Home';
     els.pageTitle.textContent = `${base} — ${label}`;
   }
 

@@ -351,6 +351,15 @@ code {
   color: var(--muted);
   line-height: 1.55;
 }
+
+.product-thumb { width: 64px; height: 64px; border-radius: 8px; object-fit: cover; margin-right: 12px; }
+
+/* purchase loading spinner */
+.purchase-loading { display: grid; place-items: center; padding: 24px; }
+.spinner { width: 64px; height: 64px; border-radius: 50%; border: 6px solid color-mix(in oklab, var(--accent), white 30%); border-top-color: transparent; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.pc-left { display: flex; gap: 12px; align-items: center; }
 .product-actions { margin-top: 10px; }
 .btn-buy { text-decoration: none; }
 
@@ -373,3 +382,13 @@ code {
 /* Product animations */
 .product-item { transition: transform .18s ease, box-shadow .2s ease; }
 .product-item:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,.28); }
+
+/* Purchase page */
+.route-purchase { text-align: left; }
+.purchase-list { display: grid; gap: 12px; grid-template-columns: 1fr; }
+.purchase-card { padding: 14px; border-radius: 12px; border: 1px solid var(--border); background: color-mix(in oklab, var(--bg-2), white 0%); display: flex; justify-content: space-between; align-items: center; gap: 12px; transition: transform .18s ease, box-shadow .2s ease; }
+.purchase-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,.28); }
+.purchase-card .pc-left { display: grid; gap: 6px; }
+.purchase-card .pc-name { font-weight: 800; }
+.purchase-card .pc-price { background: color-mix(in oklab, var(--accent), white 85%); color: color-mix(in oklab, var(--accent), black 10%); padding: 6px 10px; border-radius: 999px; font-weight: 800; }
+.btn-buy-now { background: var(--accent); color: white; border-color: color-mix(in oklab, var(--accent), white 50%); }

@@ -1,6 +1,6 @@
 {
   "name": "xsync69",
-  "bio": "no",
+  "bio": "I'm a full-stack developer focusing on fast, maintainable JavaScript and Python projects — from Discord bots and automation to small business websites. I build clean UIs, reliable backend hooks, and can take custom orders (DM for quotes). Example stacks: Node.js, Express, Vercel, Stripe integrations, and lightweight automation scripts.",
   "avatar": "assets/ace.png",
   "discord": "xsync69.",
   "accentColor": "#7c3aed",
@@ -10,12 +10,13 @@
   "logEndpoint": "https://syncwebsite-v2.vercel.app/api/log-ip",
   "contactEndpoint": "https://syncwebsite-v2.vercel.app/api/contact",
   "audio": { "src": "assets/Striker.mp3" },
+  "gallery": ["assets/ace.png", "assets/ace.png", "assets/ace.png"],
   "products": [
-  { "name": "Custom Websites", "description": "Modern responsive websites with clean UI, SEO-friendly markup, and fast load times.", "price": "$149+", "badges": ["Responsive", "Fast", "SEO Ready"] },
-  { "name": "Custom Discord Bots", "description": "Bots with commands, moderation, logging, giveaways, tickets, and custom APIs.", "price": "$79+", "badges": ["Moderation", "Logging", "Tickets"] },
-  { "name": "Python Scripts", "description": "Automation, data parsing, scrapers, and one-off utilities tailored to your needs.", "price": "$39+", "badges": ["Automation", "Data", "CLI"] },
-  { "name": "Web Automation Bots", "description": "Headless browser or API automations for routine tasks with scheduling and error handling.", "price": "$99+", "badges": ["Headless", "Scheduler", "Robust"] },
-  { "name": "API Integrations", "description": "Connect services like Discord, Stripe, Twitch, YouTube, and more into your workflow.", "price": "$59+", "badges": ["REST", "Webhooks", "OAuth"] },
-  { "name": "Bug Fixes & Refactors", "description": "Fix broken features, reduce tech debt, and improve maintainability and performance.", "price": "$25+", "badges": ["Fix", "Refactor", "Perf"] }
+  { "name": "Custom Websites", "image": "assets/ace.png", "description": "Full responsive websites with accessible UI, fast performance and SEO basics included.", "price": "$149+", "badges": ["Responsive", "Fast", "SEO Ready"] },
+  { "name": "Custom Discord Bots", "image": "assets/ace.png", "description": "Tailored Discord bots: moderation, logging, commands, tickets and integrations.", "price": "$79+", "badges": ["Moderation", "Logging", "Tickets"] },
+  { "name": "Python Scripts", "image": "assets/ace.png", "description": "Automation, scraping, data processing and CLI utilities to save time.", "price": "$39+", "badges": ["Automation", "Data", "CLI"] },
+  { "name": "Web Automation Bots", "image": "assets/ace.png", "description": "Headless browser or API automation for repetitive web tasks with retries and scheduling.", "price": "$99+", "badges": ["Headless", "Scheduler", "Robust"] },
+  { "name": "API Integrations", "image": "assets/ace.png", "description": "Connect your app to Discord, Stripe, Twitch, YouTube and other services.", "price": "$59+", "badges": ["REST", "Webhooks", "OAuth"] },
+  { "name": "Bug Fixes & Refactors", "image": "assets/ace.png", "description": "Quick fixes, refactors and performance improvements to your existing code.", "price": "$25+", "badges": ["Fix", "Refactor", "Perf"] }
   ]
 }
