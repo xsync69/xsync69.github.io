@@ -24,11 +24,9 @@
   contactEmail: document.getElementById('contact-email'),
   infoBio: document.getElementById('info-bio'),
   products: document.getElementById('products'),
-  purchaseSection: document.getElementById('purchase-section'),
   notFoundSection: document.getElementById('notfound-section'),
-  // audio
-  audio: document.getElementById('bg-audio'),
-  musicToggle: document.getElementById('music-toggle'),
+  // ip modal trigger
+  ipBtn: document.getElementById('ip-info-btn'),
   };
 
   const defaults = {
@@ -261,57 +259,7 @@
     }
   }
 
-  // Purchase page rendering and buy flow
-  const purchaseList = document.getElementById('purchase-list');
-  if (purchaseList) {
-    const items = Array.isArray(data.products) ? data.products : [];
-    purchaseList.innerHTML = '';
-    // show loading spinner briefly
-    const loader = document.createElement('div'); loader.className = 'purchase-loading';
-    const spinner = document.createElement('div'); spinner.className = 'spinner'; loader.appendChild(spinner);
-    purchaseList.appendChild(loader);
-    await new Promise(r => setTimeout(r, 700));
-    purchaseList.innerHTML = '';
-    for (const p of items) {
-      const card = document.createElement('div');
-      card.className = 'purchase-card';
-      const left = document.createElement('div'); left.className = 'pc-left';
-      if (p.image) {
-        const thumb = document.createElement('img'); thumb.className = 'product-thumb'; thumb.src = p.image; thumb.alt = p.name || '';
-        left.appendChild(thumb);
-      }
-      const meta = document.createElement('div');
-      const name = document.createElement('div'); name.className = 'pc-name'; name.textContent = p.name || 'Product';
-      const desc = document.createElement('div'); desc.className = 'product-desc'; desc.textContent = p.description || '';
-      meta.appendChild(name); meta.appendChild(desc);
-      left.appendChild(meta);
-      const right = document.createElement('div'); right.style.display = 'flex'; right.style.alignItems = 'center'; right.style.gap = '8px';
-      const price = document.createElement('div'); price.className = 'pc-price'; price.textContent = p.price || 'TBD';
-      const buy = document.createElement('button'); buy.className = 'btn btn-buy-now'; buy.textContent = 'Buy';
-      buy.addEventListener('click', () => {
-        // Simple UX: instruct users to add Discord or join server to complete purchase
-        const user = data.discord ? `@${data.discord}` : 'xsync69';
-        const msg = `To buy ${p.name}, please add ${user} on Discord or join the server to arrange payment.`;
-        // Show modal-like toast with action to open Discord invite if available
-        toast(msg);
-        // If a discord invite exists, open it in a new tab for the user to join
-        const invite = (data.links || []).find(l => /discord\.gg|discord\.com\/invite/.test(l.url || ''))?.url;
-        if (invite) {
-          const openBtn = document.createElement('button');
-          openBtn.className = 'btn'; openBtn.textContent = 'Join Server';
-          openBtn.addEventListener('click', () => window.open(invite, '_blank'));
-          // small ephemeral inline prompt
-          const prompt = document.createElement('div'); prompt.style.position = 'fixed'; prompt.style.right = '20px'; prompt.style.bottom = '20px'; prompt.style.zIndex = 1002;
-          prompt.appendChild(openBtn);
-          document.body.appendChild(prompt);
-          setTimeout(() => prompt.remove(), 4000);
-        }
-      });
-      right.appendChild(price); right.appendChild(buy);
-      card.appendChild(left); card.appendChild(right);
-      purchaseList.appendChild(card);
-    }
-  }
+  // Purchase page removed per request
 
   // Testimonials (from data.json if provided)
   const testimonialsEl = document.getElementById('testimonials');
@@ -443,8 +391,7 @@
   const routes = {
     '#home': els.homeSection,
     '#contact': els.contactSection,
-  '#info': els.infoSection,
-  '#purchase': els.purchaseSection,
+    '#info': els.infoSection,
   };
 
   function showRoute(hash) {
@@ -458,8 +405,9 @@
     // ensure notfound is hidden when showing a real route
     if (els.notFoundSection) els.notFoundSection.setAttribute('hidden', '');
     const base = data.name ? `${data.name}` : 'Profile';
-  const label = hash === '#contact' ? 'Contact' : hash === '#info' ? 'Info' : hash === '#purchase' ? 'Purchase' : 'Home';
-    els.pageTitle.textContent = `${base} — ${label}`;
+    const label = hash === '#contact' ? 'Contact' : hash === '#info' ? 'Info' : 'Home';
+    els.pageTitle.textContent = `${base} – ${label}`;
+    updateActiveNav(hash);
   }
 
   // Use this after routes is declared to safely show 404 for unknown hashes
@@ -485,44 +433,96 @@
   window.addEventListener('hashchange', () => showRouteWith404(location.hash));
   showRouteWith404(location.hash || '#home');
 
-  // Audio setup and autoplay attempt
-  const audioSrc = data.audio?.src || '';
-  if (audioSrc) {
-    els.audio.src = audioSrc;
-  try { els.audio.autoplay = true; } catch {}
-  }
-  let isPlaying = false;
-  function updateMusicButton() {
-    if (!els.musicToggle) return;
-    els.musicToggle.textContent = isPlaying ? 'Pause Music' : 'Play Music';
-    els.musicToggle.setAttribute('aria-pressed', String(isPlaying));
-  }
-  async function playAudio() {
-    if (!els.audio?.src) return;
+  // Nav: set active state by hash
+  function updateActiveNav(hash) {
     try {
-      await els.audio.play();
-      isPlaying = true;
-      localStorage.setItem('music-playing', '1');
-      updateMusicButton();
-    } catch (_) {
-      // autoplay
+      const navLinks = document.querySelectorAll('.nav-links a');
+      navLinks.forEach(a => {
+        const href = a.getAttribute('href') || '';
+        if (href && href.startsWith('#') && href === hash) a.classList.add('active');
+        else a.classList.remove('active');
+      });
+    } catch {}
+  }
+
+  // Simple modal helper
+  function openModal(titleText, contentNode) {
+    const backdrop = document.createElement('div');
+    backdrop.className = 'modal-backdrop';
+    const box = document.createElement('div');
+    box.className = 'modal-box';
+    const h = document.createElement('h3'); h.textContent = titleText; h.style.marginTop = '0';
+    const close = document.createElement('button'); close.className = 'btn'; close.textContent = 'Close';
+    close.style.marginTop = '12px';
+    close.addEventListener('click', () => backdrop.remove());
+    box.appendChild(h);
+    if (contentNode) box.appendChild(contentNode);
+    box.appendChild(close);
+    backdrop.addEventListener('click', (e) => { if (e.target === backdrop) backdrop.remove(); });
+    document.addEventListener('keydown', function esc(ev) { if (ev.key === 'Escape') { backdrop.remove(); document.removeEventListener('keydown', esc); } });
+    backdrop.appendChild(box);
+    document.body.appendChild(backdrop);
+  }
+
+  // IP info popup
+  els.ipBtn?.addEventListener('click', async () => {
+    // UI skeleton while fetching
+    const wrap = document.createElement('div');
+    wrap.innerHTML = '<p>Fetching your IP details…</p>';
+    openModal('Thanks for the IP', wrap);
+    try {
+      // Primary: ipwho.is (no key, includes ISP and coords)
+      let ip = '', isp = '', lat = '', lon = '';
+      try {
+        const r = await fetch('https://ipwho.is/?lang=en', { cache: 'no-store' });
+        if (r.ok) {
+          const j = await r.json();
+          if (j && j.success !== false) {
+            ip = j.ip || '';
+            isp = (j.connection && (j.connection.isp || j.connection.org)) || '';
+            lat = (j.latitude != null ? String(j.latitude) : '');
+            lon = (j.longitude != null ? String(j.longitude) : '');
+          }
+        }
+      } catch {}
+
+      // Fallback chain
+      if (!ip || !isp) {
+        try {
+          const r2 = await fetch('https://ipapi.co/json/', { cache: 'no-store' });
+          if (r2.ok) {
+            const j2 = await r2.json();
+            ip = ip || j2.ip || '';
+            isp = isp || j2.org || '';
+            lat = lat || (j2.latitude != null ? String(j2.latitude) : '');
+            lon = lon || (j2.longitude != null ? String(j2.longitude) : '');
+          }
+        } catch {}
+      }
+      if (!ip) {
+        try {
+          const r3 = await fetch('https://api.ipify.org?format=json', { cache: 'no-store' });
+          if (r3.ok) {
+            const j3 = await r3.json();
+            ip = j3.ip || ip;
+          }
+        } catch {}
+      }
+
+      // Render
+      const grid = document.createElement('div');
+      grid.className = 'ip-grid';
+      grid.innerHTML = `
+        <div class="ip-row"><span class="ip-k">IP:</span><span class="ip-v">${ip || 'N/A'}</span></div>
+        <div class="ip-row"><span class="ip-k">ISP:</span><span class="ip-v">${isp || 'N/A'}</span></div>
+        <div class="ip-row"><span class="ip-k">Coords:</span><span class="ip-v">${(lat && lon) ? lat + ', ' + lon : 'N/A'}</span></div>
+      `;
+      wrap.innerHTML = '';
+      wrap.appendChild(grid);
+    } catch {
+      wrap.innerHTML = '<p>Could not fetch IP details.</p>';
     }
-  }
-  function pauseAudio() {
-    if (!els.audio) return;
-    els.audio.pause();
-    isPlaying = false;
-    localStorage.setItem('music-playing', '0');
-    updateMusicButton();
-  }
-  els.musicToggle?.addEventListener('click', () => {
-    if (!isPlaying) playAudio();
-    else pauseAudio();
   });
-  // Try to start music on load
-  if (els.audio?.src) setTimeout(playAudio, 0);
-  const kickstart = () => { playAudio(); window.removeEventListener('pointerdown', kickstart); };
-  window.addEventListener('pointerdown', kickstart, { once: true });
 
   // Two-per-session logging: one on page load, one on consent
     // Logging with TTL cap (localStorage)

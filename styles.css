@@ -78,7 +78,7 @@ body {
 .nav-inner {
   max-width: 980px;
   margin: 0 auto;
-  padding: 10px 16px;
+  padding: 12px 18px;
   display: flex;
   align-items: center;
   gap: 16px;
@@ -91,15 +91,16 @@ body {
 }
 .nav-links {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   margin-left: auto;
 }
 .nav-links a {
   text-decoration: none;
   color: var(--text);
-  padding: 6px 10px;
-  border-radius: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
   border: 1px solid transparent;
+  position: relative;
 }
 .modal-backdrop {
   position: fixed;
@@ -129,7 +130,13 @@ body {
 @keyframes riseIn { to { transform: translateY(0); opacity: 1; } }
 .nav-links a:hover {
   border-color: color-mix(in oklab, var(--accent), white 30%);
-  background: color-mix(in oklab, var(--bg-2), white 0%);
+  background: color-mix(in oklab, var(--bg-2), white 6%);
+}
+.nav-links a.active {
+  border-color: color-mix(in oklab, var(--accent), white 40%);
+  background: color-mix(in oklab, var(--accent), white 88%);
+  color: color-mix(in oklab, var(--accent), black 10%);
+  box-shadow: 0 8px 24px color-mix(in oklab, var(--accent), transparent 85%);
 }
 .music-btn { white-space: nowrap; }
 .nav-cta {
@@ -247,6 +254,12 @@ code {
   border-color: color-mix(in oklab, var(--accent), white 30%);
   box-shadow: 0 6px 20px color-mix(in oklab, var(--accent), transparent 88%);
 }
+
+/* IP modal grid */
+.ip-grid { display: grid; gap: 8px; margin-top: 6px; }
+.ip-row { display: grid; grid-template-columns: 90px 1fr; gap: 10px; align-items: center; }
+.ip-k { color: var(--muted); font-weight: 600; letter-spacing: .03em; text-transform: uppercase; font-size: 12px; }
+.ip-v { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
 
 .btn:active {
   transform: translateY(0) scale(0.995);
