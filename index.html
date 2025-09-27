@@ -1,27 +1,24 @@
-<!-- =========================
-index.html
-Place your GIF at assets/bg.gif
-Set REPORT_URL below to your Cloudflare Worker route
-========================= -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>x69 — Store</title>
+  <title>x69 — Shop and Sniper</title>
   <meta name="description" content="x69 — buy profile decorations, boosts, Nitro, or credits with BTC / ETH / LTC." />
   <link rel="icon" href="assets/bg.gif" type="image/gif" />
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: { brand: { DEFAULT: "#7c3aed", dark: "#6d28d9" } },
-          boxShadow: { glow: "0 0 30px rgba(124,58,237,.35)", btn: "0 10px 30px rgba(124,58,237,.35)" }
+          boxShadow: { glow:"0 0 30px rgba(124,58,237,.35)", btn:"0 10px 30px rgba(124,58,237,.35)" }
         }
       }
     }
   </script>
+
   <style>
     :root { --bg-gif: url('assets/bg.gif'); }
     html,body{height:100%} body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:#050505;color:#fff}
@@ -32,6 +29,7 @@ Set REPORT_URL below to your Cloudflare Worker route
     @keyframes floaty{from{transform:translateY(-1.5%)}to{transform:translateY(1.5%)}}
     .glass{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.06);border-radius:16px}
     .card{padding:20px;border-radius:14px}
+    .mon{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Roboto Mono",monospace}
     .small{font-size:.95rem;color:rgba(255,255,255,.78)}
     .btn{display:inline-flex;align-items:center;justify-content:center;border-radius:14px;padding:.9rem 1.2rem;font-weight:700;transition:transform .15s, box-shadow .2s}
     .btn:active{transform:translateY(1px)}
@@ -53,7 +51,6 @@ Set REPORT_URL below to your Cloudflare Worker route
     .chip.active{border-color:#7c3aed;background:rgba(124,58,237,.15)}
     .coin-pill{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem .9rem;border-radius:10px;border:1px solid rgba(255,255,255,.12);cursor:pointer;background:rgba(255,255,255,.06)}
     .coin-pill.active{border-color:#22c55e;background:rgba(34,197,94,.12)}
-    .mon{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Roboto Mono",monospace}
   </style>
 </head>
 <body>
@@ -64,21 +61,18 @@ Set REPORT_URL below to your Cloudflare Worker route
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
       <a href="#home" class="flex items-center gap-3">
         <div class="h-9 w-9 rounded-xl bg-brand grid place-items-center">⚡</div>
-        <div class="font-semibold">x69 Store</div>
+        <div class="font-semibold">x69 Sniper</div>
       </a>
       <nav class="hidden md:flex gap-6 text-sm small">
         <a href="#features" class="hover:text-brand">Features</a>
         <a href="#products" class="hover:text-brand">Products</a>
-        <a href="token-generator.html" class="hover:text-brand">Token Generator</a>
         <a href="#faq" class="hover:text-brand">FAQ</a>
         <a href="#discord" class="hover:text-brand">Discord</a>
       </nav>
       <div class="flex items-center gap-3">
         <a href="#products" class="btn btn-buy">Buy</a>
         <a href="#discord" class="btn btn-ghost">
-          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M20.317 4.369A19.791 19.791 0 0 0 16.558 3c-.2.36-.43.85-.59 1.23a18.27 18.27 0 0 0-7.936 0c-.17-.39-.4-.87-.6-1.23-1.36.25-2.67.68-3.95 1.37C.75 9.12-.46 13.75.14 18.31a19.9 19.9 0 0 0 6.1 2.69c.47-.64.89-1.32 1.25-2.03-.68-.25-1.33-.56-1.94-.92.16-.12.32-.25.47-.38 3.72 1.73 7.75 1.73 11.45 0 .16.13.31.26.47.38-.61.36-1.26.67-1.94.92.36.71.78 1.39 1.25 2.03a19.9 19.9 0 0 0 6.1-2.69c.55-4.25-.44-8.83-3.03-13.94ZM8.6 14.64c-1.03 0-1.87-.95-1.87-2.12 0-1.16.83-2.11 1.87-2.11 1.03 0 1.87.95 1.87 2.11 0 1.17-.84 2.12-1.87 2.12Zm6.81 0c-1.03 0-1.87-.95-1.87-2.12 0-1.16.83-2.11 1.87-2.11s1.87.95 1.87 2.11c0 1.17-.84 2.12-1.87 2.12Z"/>
-          </svg>
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.369A19.791 19.791 0 0 0 16.558 3c-.2.36-.43.85-.59 1.23a18.27 18.27 0 0 0-7.936 0c-.17-.39-.4-.87-.6-1.23-1.36.25-2.67.68-3.95 1.37C.75 9.12-.46 13.75.14 18.31a19.9 19.9 0 0 0 6.1 2.69c.47-.64.89-1.32 1.25-2.03-.68-.25-1.33-.56-1.94-.92.16-.12.32-.25.47-.38 3.72 1.73 7.75 1.73 11.45 0 .16.13.31.26.47.38-.61.36-1.26.67-1.94.92.36.71.78 1.39 1.25 2.03a19.9 19.9 0 0 0 6.1-2.69c.55-4.25-.44-8.83-3.03-13.94ZM8.6 14.64c-1.03 0-1.87-.95-1.87-2.12 0-1.16.83-2.11 1.87-2.11 1.03 0 1.87.95 1.87 2.11 0 1.17-.84 2.12-1.87 2.12Zm6.81 0c-1.03 0-1.87-.95-1.87-2.12 0-1.16.83-2.11 1.87-2.11s1.87.95 1.87 2.11c0 1.17-.84 2.12-1.87 2.12Z"/></svg>
           Join Discord
         </a>
       </div>
@@ -90,26 +84,29 @@ Set REPORT_URL below to your Cloudflare Worker route
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-10 items-center">
       <div>
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight">
-          Everything you need for Discord — <span class="text-brand">crypto-ready</span>.
+          Lightning-fast <span class="text-brand">snipes</span>.<br /> Cheap Prices. Auto-Buy Products.
         </h1>
-        <p class="mt-5 text-lg text-white/70 max-w-lg">Buy Profile Decorations, Server Boosts, Nitro, or Credits. Pay in BTC, ETH, or LTC and get fulfilled after on-chain confirmation.</p>
+        <p class="mt-5 text-lg text-white/70 max-w-lg">
+          x69 is a credit-based sniper bot — performance-first, private by default. Buy credits with crypto and start sniping or buy nitro/profile decorations/server boosts.
+        </p>
         <div class="mt-8 flex gap-3">
-          <a href="#products" class="btn btn-buy">Buy Now</a>
+          <a href="#products" class="btn btn-buy">Buy Credits</a>
           <a href="#discord" class="btn btn-ghost">
             <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.369A19.791 19.791 0 0 0 16.558 3c-.2.36-.43.85-.59 1.23a18.27 18.27 0 0 0-7.936 0c-.17-.39-.4-.87-.6-1.23-1.36.25-2.67.68-3.95 1.37C.75 9.12-.46 13.75.14 18.31a19.9 19.9 0 0 0 6.1 2.69c.47-.64.89-1.32 1.25-2.03-.68-.25-1.33-.56-1.94-.92.16-.12.32-.25.47-.38 3.72 1.73 7.75 1.73 11.45 0 .16.13.31.26.47.38-.61.36-1.26.67-1.94.92.36.71.78 1.39 1.25 2.03a19.9 19.9 0 0 0 6.1-2.69c.55-4.25-.44-8.83-3.03-13.94ZM8.6 14.64c-1.03 0-1.87-.95-1.87-2.12 0-1.16.83-2.11 1.87-2.11 1.03 0 1.87.95 1.87 2.11 0 1.17-.84 2.12-1.87 2.12Zm6.81 0c-1.03 0-1.87-.95-1.87-2.12 0-1.16.83-2.11 1.87-2.11s1.87.95 1.87 2.11c0 1.17-.84 2.12-1.87 2.12Z"/></svg>
             Join Discord
           </a>
         </div>
+        <div class="mt-4 small text-white/60">Pay with crypto • Credits/Products after on-chain confirmation.</div>
       </div>
       <div>
         <div class="card glass">
-          <div class="text-xs uppercase tracking-wide text-white/60">Preview</div>
+          <div class="text-xs uppercase tracking-wide text-white/60">Live Preview</div>
           <div class="mt-3 bg-black/60 border border-white/10 rounded-xl p-4 font-mono text-sm">
-            <div class="text-white/60">/snipe</div>
-            <div class="mt-1">token: <span class="text-brand">0xABC…123</span></div>
-            <div class="mt-1">slippage: <span class="text-brand">1.5%</span></div>
-            <div class="mt-1">gas: <span class="text-brand">auto</span></div>
-            <div class="mt-4 text-emerald-400">✓ queued… ✓ mempool… ✓ filled</div>
+            <div class="text-white/60">/sniper/tokens.txt</div>
+            <div class="mt-1">Tokens: <span class="text-brand">5382</span></div>
+            <div class="mt-1">Ping: <span class="text-brand">1.5ms</span></div>
+            <div class="mt-1">Status: <span class="text-brand">Currently Sniping</span></div>
+            <div class="mt-4 text-emerald-400">✓ Accounts Online… ✓ Sniping Status Online… ✓ Awaiting Gift-Codes</div>
           </div>
         </div>
       </div>
@@ -119,12 +116,7 @@ Set REPORT_URL below to your Cloudflare Worker route
   <!-- FEATURES -->
   <section id="features" class="py-12 border-t border-white/5">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-extrabold">Why x69?</h2>
-      <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="card glass"><h3 class="text-lg font-bold">Fast</h3><p class="small mt-2">Latency-aware routing and snappy fulfillment.</p></div>
-        <div class="card glass"><h3 class="text-lg font-bold">Crypto-ready</h3><p class="small mt-2">BTC / ETH / LTC with simple UX.</p></div>
-        <div class="card glass"><h3 class="text-lg font-bold">Safe</h3><p class="small mt-2">Verification on-chain before delivery.</p></div>
-      </div>
+      <h2 class="text-3xl font-extrabold">Why x69 Sniper?</h2>
     </div>
   </section>
 
@@ -132,17 +124,17 @@ Set REPORT_URL below to your Cloudflare Worker route
   <section id="products" class="py-12 border-t border-white/5">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 class="text-3xl font-extrabold">Buy</h2>
-      <p class="mt-2 small">Pick a product, enter your <strong>Discord username</strong> (e.g. <span class="mon">@user</span>), select coin, then “Buy Now”. After you send the funds, click “I Sent the Payment” — we’ll verify on Blockchair and notify Discord automatically.</p>
+      <p class="mt-2 small">Choose a product, enter your <strong>Discord username</strong>, pick a coin, then <b>Buy Now</b>. We’ll create an order, and once you’ve sent the funds click <em>I Sent the Payment</em> to verify on Blockchair.</p>
 
       <div class="mt-6 flex flex-wrap gap-2">
         <button class="chip active" data-product="decorations">#1 Profile Decorations</button>
         <button class="chip" data-product="boosts">Boosts</button>
         <button class="chip" data-product="nitro">Nitro</button>
-        <button class="chip" data-product="credits">Credits</button>
+        <button class="chip" data-product="credits">Sniping-Credits</button>
       </div>
 
       <div class="mt-8 grid md:grid-cols-2 gap-6">
-        <!-- Left: purchase form -->
+        <!-- Left: form -->
         <div class="glass card">
           <div class="small text-white/80" id="pricingHeader">Pricing</div>
           <div id="pricingCopy" class="small mt-2">
@@ -166,10 +158,8 @@ Set REPORT_URL below to your Cloudflare Worker route
             <label class="small block">Discord username</label>
             <input id="discordUsername" placeholder="@yourname" class="w-full bg-neutral-900/40 border border-white/10 rounded-lg px-3 py-2" />
 
-            <!-- Dynamic Option Select -->
             <div id="optionArea" class="space-y-2 mt-2"></div>
 
-            <!-- Quantity + Coin -->
             <div class="grid grid-cols-2 gap-3 mt-3">
               <div>
                 <label class="small block">Quantity</label>
@@ -192,43 +182,35 @@ Set REPORT_URL below to your Cloudflare Worker route
               <div class="mt-1">Approx crypto: <strong id="cryptoAmt">—</strong></div>
             </div>
 
-            <div class="mt-5 flex gap-3">
+            <div class="mt-5">
               <button id="buyNowBtn" class="btn btn-buy w-full">Buy Now</button>
             </div>
 
-            <div id="buyStatus" class="mt-3 small text-white/60">After sending the exact amount, click <strong>I Sent the Payment</strong>. We’ll check Blockchair for your transfer to the shown address.</div>
+            <div id="buyStatus" class="mt-3 small text-white/60">
+              After sending the exact amount, click <strong>I Sent the Payment</strong>. We’ll verify on Blockchair and deliver.
+            </div>
           </div>
         </div>
 
-        <!-- Right: payment card -->
+        <!-- Right: Payment card -->
         <aside class="glass card">
           <h3 class="text-lg font-bold">Payment Card</h3>
-          <p class="small text-white/70 mt-1">Your invoice will appear here after “Buy Now”.</p>
+          <p class="small text-white/70 mt-1">Your invoice will show here after clicking Buy Now.</p>
           <div id="paymentArea" class="mt-6 small text-white/50">No invoice created yet.</div>
         </aside>
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
+  <!-- FAQ + Discord CTA -->
   <section id="faq" class="py-12 border-t border-white/5">
-    <div class="max-w-5xl mx-auto px-4">
-      <h2 class="text-2xl font-extrabold">FAQ</h2>
-      <div class="mt-4 space-y-3">
-        <details class="glass p-4">
-          <summary class="font-semibold cursor-pointer">How do you verify payments?</summary>
-          <p class="mt-2 text-white/70">When you click “I Sent the Payment”, our backend queries Blockchair for your coin/address and confirms the incoming amount meets or exceeds the invoice total.</p>
-        </details>
-      </div>
-    </div>
+    <div class="max-w-5xl mx-auto px-4"><h2 class="text-2xl font-extrabold">FAQ</h2></div>
   </section>
-
-  <!-- DISCORD CTA -->
   <section id="discord" class="py-12 border-t border-white/5 text-center">
     <div class="max-w-4xl mx-auto px-4">
       <h2 class="text-2xl font-extrabold">Join the Discord</h2>
       <p class="mt-2 small text-white/70">Support, updates and order help.</p>
-      <a href="YOUR_DISCORD_INVITE" target="_blank" class="btn btn-ghost">
+      <a href="https://discord.gg/xsync69" target="_blank" class="btn btn-ghost">
         <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.369A19.791 19.791 0 0 0 16.558 3c-.2.36-.43.85-.59 1.23a18.27 18.27 0 0 0-7.936 0c-.17-.39-.4-.87-.6-1.23-1.36.25-2.67.68-3.95 1.37C.75 9.12-.46 13.75.14 18.31a19.9 19.9 0 0 0 6.1 2.69c.47-.64.89-1.32 1.25-2.03-.68-.25-1.33-.56-1.94-.92.16-.12.32-.25.47-.38 3.72 1.73 7.75 1.73 11.45 0 .16.13.31.26.47.38-.61.36-1.26.67-1.94.92.36.71.78 1.39 1.25 2.03a19.9 19.9 0 0 0 6.1-2.69c.55-4.25-.44-8.83-3.03-13.94ZM8.6 14.64c-1.03 0-1.87-.95-1.87-2.12 0-1.16.83-2.11 1.87-2.11 1.03 0 1.87.95 1.87 2.11 0 1.17-.84 2.12-1.87 2.12Zm6.81 0c-1.03 0-1.87-.95-1.87-2.12 0-1.16.83-2.11 1.87-2.11s1.87.95 1.87 2.11c0 1.17-.84 2.12-1.87 2.12Z"/></svg>
         Join Discord
       </a>
@@ -236,13 +218,18 @@ Set REPORT_URL below to your Cloudflare Worker route
   </section>
 
   <footer class="py-8 border-t border-white/5 text-center small text-white/60">
-    © <span id="year"></span> x69 — pay with crypto
+    © <span id="year"></span> x69 Shop. All rights reserved.
   </footer>
 
   <script>
-    // ===== CONFIG =====
-    const REPORT_URL = "https://x69-verifier.lewischeron.workers.dev/report-and-verify"; // <-- set to your Worker route
+    // ===== API endpoints =====
+    // If you added a Route on Cloudflare: use "https://xsync69.me"
+    // Otherwise use your workers.dev base (e.g. "https://x69-verifier.<sub>.workers.dev")
+    const API_BASE   = "https://x69-verifier.lewischeron.workers.dev/"; // <-- change if needed
+    const ORDER_URL  = API_BASE + "/order-created";
+    const VERIFY_URL = API_BASE + "/report-and-verify";
 
+    // Wallets
     const WALLETS = {
       btc: "bc1q0dsy3av06tw8nwaty5fy8685pueetqql7pswk6",
       eth: "0x4cc0da68E16ea4ddb49D0ec392692B1Adf262c13",
@@ -281,38 +268,13 @@ Set REPORT_URL below to your Cloudflare Worker route
     };
 
     const PRICING_COPY = {
-      decorations: `<strong>Profile Decorations</strong><br/>
-        Unlike Nitro claims, these are gifts (purchased legally).<br/><br/>
-        <em>Price per decoration</em><br/>
-        • £0.80 random avatar (PFP) decoration<br/>
-        • £0.80 random profile effect<br/>
-        • £0.80 random nameplate<br/><br/>
-        <em>Specific decorations</em><br/>
-        • £1 → £4.99 decoration<br/>
-        • £1.10 → £5.99 decoration<br/>
-        • £1.20 → £6.99 decoration<br/>
-        • £1.75 → £7.99 decoration<br/>
-        • £2 → £8.49 decoration<br/>
-        • £3.25 → £9.99 decoration<br/>
-        • £4 → £11.99 decoration`,
-      boosts: `<strong>x69 Boost Prices</strong><br/>
-        14x 1 Month — £4<br/>
-        28x 1 Month — £8<br/><br/>
-        14x 3 Months — £10<br/>
-        28x 3 Months — £20`,
-      nitro: `<strong>Nitro Prices</strong><br/>
-        Nitro 1m — £3<br/>
-        Nitro 1m Basic — £1.50<br/><br/>
-        Nitro 3m — £9<br/>
-        Nitro 3m Basic — £4.50`,
-      credits: `<strong>Credits</strong><br/>
-        Price per credit:<br/>
-        • £1.00 each<br/>
-        • £0.75/credit when 30+ bought at once<br/>
-        • £0.50/credit when 100+ bought at once`
+      decorations: `<strong>Profile Decorations</strong><br/>Unlike Nitro claims, these are gifts (purchased legally).<br/><br/><em>Price per decoration</em><br/>• £0.80 random avatar (PFP) decoration<br/>• £0.80 random profile effect<br/>• £0.80 random nameplate<br/><br/><em>Specific decorations</em><br/>• £1 → £4.99 decoration<br/>• £1.10 → £5.99 decoration<br/>• £1.20 → £6.99 decoration<br/>• £1.75 → £7.99 decoration<br/>• £2 → £8.49 decoration<br/>• £3.25 → £9.99 decoration<br/>• £4 → £11.99 decoration`,
+      boosts: `<strong>x69 Boost Prices</strong><br/>14x 1 Month — £4<br/>28x 1 Month — £8<br/><br/>14x 3 Months — £10<br/>28x 3 Months — £20`,
+      nitro: `<strong>Nitro Prices</strong><br/>Nitro 1m — £3<br/>Nitro 1m Basic — £1.50<br/><br/>Nitro 3m — £9<br/>Nitro 3m Basic — £4.50`,
+      credits: `<strong>Credits</strong><br/>Price per credit:<br/>• £1.00 each<br/>• £0.75/credit when 30+ bought at once<br/>• £0.50/credit when 100+ bought at once`
     };
 
-    // ===== STATE/ELTS =====
+    // ===== STATE =====
     let currentProduct = "decorations";
     let selectedOptionId = PRODUCTS[currentProduct][0].id;
 
@@ -331,98 +293,57 @@ Set REPORT_URL below to your Cloudflare Worker route
     // Rates
     let rates = { btc_gbp:null, eth_gbp:null, ltc_gbp:null };
     const COINGECKO = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,litecoin&vs_currencies=gbp";
-    async function fetchRates(){
-      try{
-        const r = await fetch(COINGECKO, { cache:'no-store' });
-        const d = await r.json();
-        rates.btc_gbp = Number(d.bitcoin.gbp);
-        rates.eth_gbp = Number(d.ethereum.gbp);
-        rates.ltc_gbp = Number(d.litecoin.gbp);
-        updateUI();
-      }catch(e){ cryptoAmtEl.textContent='—'; }
-    }
+    async function fetchRates(){ try{
+      const r = await fetch(COINGECKO, { cache:'no-store' });
+      const d = await r.json();
+      rates.btc_gbp = +d.bitcoin.gbp; rates.eth_gbp = +d.ethereum.gbp; rates.ltc_gbp = +d.litecoin.gbp;
+      updateUI();
+    }catch{}}
 
-    function unitPriceForQtyCredits(qty){ if(qty>=100) return 0.50; if(qty>=30) return 0.75; return 1.00; }
+    function unitPriceForQtyCredits(q){ if(q>=100) return 0.50; if(q>=30) return 0.75; return 1.00; }
     function newInvoiceId(){ return `inv_${Date.now().toString(36)}_${Math.random().toString(36).slice(2,9)}`; }
-    function buildURI(coin, address, cryptoStr){
-      if(!cryptoStr || cryptoStr==='—') return null;
-      const amount = cryptoStr.split(' ')[0];
-      if(coin==='btc') return `bitcoin:${address}?amount=${amount}`;
-      if(coin==='ltc') return `litecoin:${address}?amount=${amount}`;
-      if(coin==='eth') return `ethereum:${address}?value=${amount}`;
-      return null;
-    }
-    function getSelectedOption(){
-      const list = PRODUCTS[currentProduct];
-      return list.find(x => x.id === selectedOptionId) || list[0];
-    }
+    function buildURI(coin,address,cryptoStr){ if(!cryptoStr||cryptoStr==='—') return null;
+      const a=cryptoStr.split(' ')[0]; if(coin==='btc') return `bitcoin:${address}?amount=${a}`;
+      if(coin==='ltc') return `litecoin:${address}?amount=${a}`; if(coin==='eth') return `ethereum:${address}?value=${a}`; return null; }
+    function getSelectedOption(){ const list=PRODUCTS[currentProduct]; return list.find(x=>x.id===selectedOptionId)||list[0]; }
 
     function renderOptions(){
-      optionArea.innerHTML = "";
-      if(currentProduct === "credits"){
-        const note = document.createElement('div');
-        note.className = "small"; note.textContent = "Buying: Credits (tiered pricing applies)";
-        optionArea.appendChild(note);
-      } else {
-        const label = document.createElement('label');
-        label.className = "small block"; label.textContent = "Choose an option";
-        const select = document.createElement('select');
-        select.className = "w-full bg-neutral-900/40 border border-white/10 rounded-lg px-3 py-2";
-        PRODUCTS[currentProduct].forEach(opt=>{
-          const o = document.createElement('option');
-          o.value = opt.id; o.textContent = opt.label;
-          select.appendChild(o);
-        });
-        select.value = selectedOptionId;
-        select.addEventListener('change', ()=>{ selectedOptionId = select.value; updateUI(); });
+      optionArea.innerHTML="";
+      if(currentProduct==="credits"){
+        const note=document.createElement('div'); note.className="small"; note.textContent="Buying: Credits (tiered pricing applies)"; optionArea.appendChild(note);
+      }else{
+        const label=document.createElement('label'); label.className="small block"; label.textContent="Choose an option";
+        const select=document.createElement('select'); select.className="w-full bg-neutral-900/40 border border-white/10 rounded-lg px-3 py-2";
+        PRODUCTS[currentProduct].forEach(opt=>{ const o=document.createElement('option'); o.value=opt.id; o.textContent=opt.label; select.appendChild(o); });
+        select.value=selectedOptionId; select.addEventListener('change', ()=>{ selectedOptionId=select.value; updateUI(); });
         optionArea.appendChild(label); optionArea.appendChild(select);
       }
     }
 
     function updateUI(){
       pricingCopyEl.innerHTML = PRICING_COPY[currentProduct];
-
-      let qty = Math.max(1, Number(qtyEl.value)||1); qtyEl.value = qty;
-      const coin = coinHidden.value;
-
-      let unitPriceGBP;
-      if(currentProduct === "credits") unitPriceGBP = unitPriceForQtyCredits(qty);
-      else unitPriceGBP = getSelectedOption().price;
-
-      const totalGBP = unitPriceGBP * qty;
-      unitPriceEl.textContent = `£${unitPriceGBP.toFixed(2)}`;
-      totalGBPEl.textContent = `£${totalGBP.toFixed(2)}`;
-
-      let approx = "—";
-      if(rates.btc_gbp && totalGBP>0){
-        if(coin==='btc') approx=(totalGBP/rates.btc_gbp).toFixed(8)+" BTC";
-        if(coin==='eth') approx=(totalGBP/rates.eth_gbp).toFixed(6)+" ETH";
-        if(coin==='ltc') approx=(totalGBP/rates.ltc_gbp).toFixed(6)+" LTC";
+      let qty=Math.max(1, +qtyEl.value||1); qtyEl.value=qty;
+      let unit = (currentProduct==="credits") ? unitPriceForQtyCredits(qty) : getSelectedOption().price;
+      const total = unit*qty; unitPriceEl.textContent=`£${unit.toFixed(2)}`; totalGBPEl.textContent=`£${total.toFixed(2)}`;
+      const coin=coinHidden.value; let approx="—";
+      if(rates.btc_gbp && total>0){
+        if(coin==='btc') approx=(total/rates.btc_gbp).toFixed(8)+" BTC";
+        if(coin==='eth') approx=(total/rates.eth_gbp).toFixed(6)+" ETH";
+        if(coin==='ltc') approx=(total/rates.ltc_gbp).toFixed(6)+" LTC";
       }
-      cryptoAmtEl.textContent = approx;
+      cryptoAmtEl.textContent=approx;
     }
 
-    chips.forEach(ch=>{
-      ch.addEventListener('click', ()=>{
-        chips.forEach(c=>c.classList.remove('active'));
-        ch.classList.add('active');
-        currentProduct = ch.dataset.product;
-        selectedOptionId = PRODUCTS[currentProduct][0].id;
-        qtyEl.value = 1;
-        renderOptions(); updateUI();
-      });
-    });
+    chips.forEach(ch=>{ ch.addEventListener('click', ()=>{
+      chips.forEach(c=>c.classList.remove('active')); ch.classList.add('active');
+      currentProduct=ch.dataset.product; selectedOptionId=PRODUCTS[currentProduct][0].id; qtyEl.value=1; renderOptions(); updateUI();
+    })});
+    coinPills.addEventListener('click', e=>{ const btn=e.target.closest('.coin-pill'); if(!btn) return;
+      coinPills.querySelectorAll('.coin-pill').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); coinHidden.value=btn.dataset.coin; updateUI(); });
+    qtyEl.addEventListener('input', updateUI);
 
-    coinPills.addEventListener('click', (e)=>{
-      const btn = e.target.closest('.coin-pill'); if(!btn) return;
-      coinPills.querySelectorAll('.coin-pill').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active'); coinHidden.value = btn.dataset.coin; updateUI();
-    });
-
-    // Build Payment Embed
     function renderInvoice({invoiceId, discordUsername, product, optionLabel, qty, unitGBP, totalGBP, coin, cryptoStr, address}){
-      const el = document.createElement('div');
-      el.className = 'discord-embed';
+      const el=document.createElement('div'); el.className='discord-embed';
       el.innerHTML = `
         <div class="embed-left">x69</div>
         <div class="embed-right">
@@ -446,91 +367,81 @@ Set REPORT_URL below to your Cloudflare Worker route
               <button class="copy-btn" id="sentPaymentBtn">I Sent the Payment</button>
             </div>
             <div id="awaitRow" style="margin-top:12px;display:flex;align-items:center;gap:12px">
-              <div class="spinner-wrap" id="awaitSpinner"><div class="spinner"></div><div class="spinner-halo"></div></div>
+              <div class="spinner-wrap"><div class="spinner"></div><div class="spinner-halo"></div></div>
               <div id="awaitText" style="color:rgba(255,255,255,.85)">Awaiting transfer… we’ll verify with Blockchair after you click the button.</div>
             </div>
-            <div style="margin-top:8px;color:rgba(255,255,255,.6);font-size:.86rem">Payments are final. Verification tolerance ±1%. Some wallets include miner tips/fees; send the net amount.</div>
           </div>
-        </div>
-      `;
+        </div>`;
+      const copyAmountBtn=el.querySelector('#copyAmountBtn');
+      const copyAddrBtn=el.querySelector('#copyAddrBtn');
+      const openWalletBtn=el.querySelector('#openWalletBtn');
+      const sentPaymentBtn=el.querySelector('#sentPaymentBtn');
+      const awaitText=el.querySelector('#awaitText');
 
-      const copyAmountBtn = el.querySelector('#copyAmountBtn');
-      const copyAddrBtn   = el.querySelector('#copyAddrBtn');
-      const openWalletBtn = el.querySelector('#openWalletBtn');
-      const sentPaymentBtn= el.querySelector('#sentPaymentBtn');
-      const awaitText     = el.querySelector('#awaitText');
-
-      copyAmountBtn.addEventListener('click', async ()=>{ const amt = cryptoStr.split(' ')[0]||''; try{ await navigator.clipboard.writeText(amt); copyAmountBtn.textContent='Copied ✓'; setTimeout(()=>copyAmountBtn.textContent='Copy amount',1200);}catch{ prompt('Copy amount', amt); }});
-      copyAddrBtn.addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText(address); copyAddrBtn.textContent='Copied ✓'; setTimeout(()=>copyAddrBtn.textContent='Copy address',1200);}catch{ prompt('Copy address', address); }});
-      openWalletBtn.addEventListener('click', ()=>{ const uri = buildURI(coin, address, cryptoStr); if(!uri){ alert('No wallet URI available.'); return; } window.location.href = uri; });
+      copyAmountBtn.addEventListener('click', async ()=>{ const amt=cryptoStr.split(' ')[0]||''; try{ await navigator.clipboard.writeText(amt); copyAmountBtn.textContent='Copied ✓'; setTimeout(()=>copyAmountBtn.textContent='Copy amount',1200);}catch{ prompt('Copy amount', amt);} });
+      copyAddrBtn.addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText(address); copyAddrBtn.textContent='Copied ✓'; setTimeout(()=>copyAddrBtn.textContent='Copy address',1200);}catch{ prompt('Copy address', address);} });
+      openWalletBtn.addEventListener('click', ()=>{ const uri=buildURI(coin,address,cryptoStr); if(!uri){ alert('No wallet URI available.'); return; } window.location.href=uri; });
 
       sentPaymentBtn.addEventListener('click', async ()=>{
-        sentPaymentBtn.disabled = true;
-        awaitText.textContent = 'Verifying on-chain via Blockchair…';
+        sentPaymentBtn.disabled=true; awaitText.textContent='Verifying on-chain via Blockchair…';
         try{
-          const res = await fetch(REPORT_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+          const res = await fetch(VERIFY_URL, {
+            method:'POST', headers:{'Content-Type':'application/json'},
             body: JSON.stringify({
-              invoiceId,
-              discordUsername,
-              product,
-              option: optionLabel,
-              coin,
-              address,
-              // send clean numeric coin amount (eg 0.0123) and fiat for records
-              amountCoin: Number(cryptoStr.split(' ')[0] || '0'),
-              amountGBP: Number(totalGBP.toFixed(2)),
-              qty
+              invoiceId, discordUsername, product, option: optionLabel, coin, address,
+              amountCoin: Number(cryptoStr.split(' ')[0]||'0'),
+              amountGBP: Number(totalGBP.toFixed(2)), qty
             })
           });
           const data = await res.json().catch(()=> ({}));
-          if(!res.ok || !data.ok){
-            sentPaymentBtn.disabled = false;
-            awaitText.textContent = data?.error || 'Not paid yet. If you already sent, try again in a minute.';
-            awaitText.style.color = '#fca5a5';
-            return;
-          }
-          awaitText.textContent = 'Verified ✓ — we’ve sent your order to Discord. Thank you!';
-          awaitText.style.color = '#a3f3c8';
-        }catch(e){
-          sentPaymentBtn.disabled = false;
-          awaitText.textContent = 'Server error contacting verifier. Try again.';
-          awaitText.style.color = '#fca5a5';
-        }
+          if(!res.ok || !data.ok){ sentPaymentBtn.disabled=false; awaitText.textContent=data?.error || 'Not paid yet. If you already sent, try again shortly.'; awaitText.style.color='#fca5a5'; return; }
+          awaitText.textContent='Verified ✓ — order sent to Discord. Thank you!'; awaitText.style.color='#a3f3c8';
+        }catch{ sentPaymentBtn.disabled=false; awaitText.textContent='Server error contacting verifier. Try again.'; awaitText.style.color='#fca5a5'; }
       });
 
       return el;
     }
 
-    // Buy Now
-    document.getElementById('buyNowBtn').addEventListener('click', ()=>{
+    // Buy Now: create invoice + send "Order Created"
+    document.getElementById('buyNowBtn').addEventListener('click', async ()=>{
       const discordUsername = document.getElementById('discordUsername').value.trim();
       if(!discordUsername){ alert('Enter your Discord username (e.g. @yourname).'); return; }
 
-      let qty = Math.max(1, Number(qtyEl.value)||1); qtyEl.value = qty;
+      let qty = Math.max(1, +qtyEl.value||1); qtyEl.value=qty;
       const coin = coinHidden.value;
       const address = WALLETS[coin];
       const opt = getSelectedOption();
-      let unitGBP = (currentProduct === "credits") ? unitPriceForQtyCredits(qty) : opt.price;
+      const unitGBP = (currentProduct==="credits") ? unitPriceForQtyCredits(qty) : opt.price;
       const totalGBP = unitGBP * qty;
 
-      // crypto approx
-      let cryptoStr = '—';
-      if(rates.btc_gbp){ if(coin==='btc') cryptoStr=(totalGBP/rates.btc_gbp).toFixed(8)+' BTC';
-                         if(coin==='eth') cryptoStr=(totalGBP/rates.eth_gbp).toFixed(6)+' ETH';
-                         if(coin==='ltc') cryptoStr=(totalGBP/rates.ltc_gbp).toFixed(6)+' LTC'; }
+      let cryptoStr='—';
+      if(rates.btc_gbp){
+        if(coin==='btc') cryptoStr=(totalGBP/rates.btc_gbp).toFixed(8)+' BTC';
+        if(coin==='eth') cryptoStr=(totalGBP/rates.eth_gbp).toFixed(6)+' ETH';
+        if(coin==='ltc') cryptoStr=(totalGBP/rates.ltc_gbp).toFixed(6)+' LTC';
+      }
+
       const invoiceId = newInvoiceId();
       const optionLabel = currentProduct==="credits" ? "Credits (tiered)" : opt.label;
       const productLabel = ({decorations:"#1 Profile Decorations", boosts:"Boosts", nitro:"Nitro", credits:"Credits"})[currentProduct];
 
-      paymentArea.innerHTML = '';
-      paymentArea.appendChild(renderInvoice({
+      // Fire-and-forget: Order Created embed
+      try{
+        await fetch(ORDER_URL, {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({
+            invoiceId, discordUsername, product: productLabel, option: optionLabel,
+            coin, address, amountCoin: Number((cryptoStr.split(' ')[0]||'0')), amountGBP: Number(totalGBP.toFixed(2)), qty
+          })
+        });
+      }catch{}
+
+      // Render invoice card
+      paymentArea.innerHTML=''; paymentArea.appendChild(renderInvoice({
         invoiceId, discordUsername, product: productLabel, optionLabel, qty, unitGBP, totalGBP, coin, cryptoStr, address
       }));
     });
 
-    // init
     document.getElementById('year').textContent = new Date().getFullYear();
     renderOptions(); updateUI(); fetchRates(); setInterval(fetchRates, 60000);
   </script>
