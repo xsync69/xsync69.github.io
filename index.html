@@ -1,3 +1,6 @@
+<!-- =========================
+index.html (updated)
+========================= -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,7 +9,6 @@
   <title>x69 — Shop and Sniper</title>
   <meta name="description" content="x69 — buy profile decorations, boosts, Nitro, or credits with BTC / ETH / LTC." />
   <link rel="icon" href="assets/bg.gif" type="image/gif" />
-
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -18,10 +20,10 @@
       }
     }
   </script>
-
   <style>
     :root { --bg-gif: url('assets/bg.gif'); }
-    html,body{height:100%} body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:#050505;color:#fff}
+    html,body{height:100%}
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:#050505;color:#fff}
     .hero-bg{position:fixed;inset:0;z-index:-10;background:radial-gradient(60% 40% at 50% 10%,rgba(124,58,237,.20),transparent 60%),#050505;overflow:hidden}
     .hero-bg::before{content:"";position:absolute;inset:-10%;background-image:var(--bg-gif);background-size:cover;background-position:center;opacity:.18;filter:contrast(1.05) saturate(1.05) brightness(.75);transform:scale(1.08);animation:pan 40s linear infinite}
     .hero-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(1200px 500px at 70% -10%,rgba(124,58,237,.18),transparent 60%),radial-gradient(800px 400px at 10% 110%,rgba(59,130,246,.08),transparent 60%);mix-blend-mode:screen;animation:floaty 12s ease-in-out infinite alternate}
@@ -66,10 +68,12 @@
       <nav class="hidden md:flex gap-6 text-sm small">
         <a href="#features" class="hover:text-brand">Features</a>
         <a href="#products" class="hover:text-brand">Products</a>
+        <a href="tokengen.html" class="hover:text-brand">Token Generator</a>
         <a href="#faq" class="hover:text-brand">FAQ</a>
         <a href="#discord" class="hover:text-brand">Discord</a>
       </nav>
       <div class="flex items-center gap-3">
+        <a href="tokengen.html" class="btn btn-ghost">Token Generator</a>
         <a href="#products" class="btn btn-buy">Buy</a>
         <a href="#discord" class="btn btn-ghost">
           <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.369A19.791 19.791 0 0 0 16.558 3c-.2.36-.43.85-.59 1.23a18.27 18.27 0 0 0-7.936 0c-.17-.39-.4-.87-.6-1.23-1.36.25-2.67.68-3.95 1.37C.75 9.12-.46 13.75.14 18.31a19.9 19.9 0 0 0 6.1 2.69c.47-.64.89-1.32 1.25-2.03-.68-.25-1.33-.56-1.94-.92.16-.12.32-.25.47-.38 3.72 1.73 7.75 1.73 11.45 0 .16.13.31.26.47.38-.61.36-1.26.67-1.94.92.36.71.78 1.39 1.25 2.03a19.9 19.9 0 0 0 6.1-2.69c.55-4.25-.44-8.83-3.03-13.94ZM8.6 14.64c-1.03 0-1.87-.95-1.87-2.12 0-1.16.83-2.11 1.87-2.11 1.03 0 1.87.95 1.87 2.11 0 1.17-.84 2.12-1.87 2.12Zm6.81 0c-1.03 0-1.87-.95-1.87-2.12 0-1.16.83-2.11 1.87-2.11s1.87.95 1.87 2.11c0 1.17-.84 2.12-1.87 2.12Z"/></svg>
@@ -91,6 +95,7 @@
         </p>
         <div class="mt-8 flex gap-3">
           <a href="#products" class="btn btn-buy">Buy Credits</a>
+          <a href="tokengen.html" class="btn btn-ghost">Token Generator</a>
           <a href="#discord" class="btn btn-ghost">
             <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.369A19.791 19.791 0 0 0 16.558 3c-.2.36-.43.85-.59 1.23a18.27 18.27 0 0 0-7.936 0c-.17-.39-.4-.87-.6-1.23-1.36.25-2.67.68-3.95 1.37C.75 9.12-.46 13.75.14 18.31a19.9 19.9 0 0 0 6.1 2.69c.47-.64.89-1.32 1.25-2.03-.68-.25-1.33-.56-1.94-.92.16-.12.32-.25.47-.38 3.72 1.73 7.75 1.73 11.45 0 .16.13.31.26.47.38-.61.36-1.26.67-1.94.92.36.71.78 1.39 1.25 2.03a19.9 19.9 0 0 0 6.1-2.69c.55-4.25-.44-8.83-3.03-13.94ZM8.6 14.64c-1.03 0-1.87-.95-1.87-2.12 0-1.16.83-2.11 1.87-2.11 1.03 0 1.87.95 1.87 2.11 0 1.17-.84 2.12-1.87 2.12Zm6.81 0c-1.03 0-1.87-.95-1.87-2.12 0-1.16.83-2.11 1.87-2.11s1.87.95 1.87 2.11c0 1.17-.84 2.12-1.87 2.12Z"/></svg>
             Join Discord
@@ -113,18 +118,11 @@
     </div>
   </section>
 
-  <!-- FEATURES -->
-  <section id="features" class="py-12 border-t border-white/5">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-extrabold">Why x69 Sniper?</h2>
-    </div>
-  </section>
-
   <!-- PRODUCTS -->
   <section id="products" class="py-12 border-t border-white/5">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h2 class="text-3xl font-extrabold">Buy</h2>
-      <p class="mt-2 small">Choose a product, enter your <strong>Discord username</strong>, pick a coin, then <b>Buy Now</b>. We’ll create an order, and once you’ve sent the funds click <em>I Sent the Payment</em> to verify on Blockchair.</p>
+      <p class="mt-2 small">Choose a product, enter your <strong>Discord username</strong>, pick a coin, then <b>Buy Now</b>. We’ll create an order and show your invoice. After sending funds, click <em>I Sent the Payment</em> for auto-verification.</p>
 
       <div class="mt-6 flex flex-wrap gap-2">
         <button class="chip active" data-product="decorations">#1 Profile Decorations</button>
@@ -134,78 +132,78 @@
       </div>
 
       <div class="mt-8 grid md:grid-cols-2 gap-6">
-        <!-- Left: form -->
+        <!-- Left: purchase tiles -->
         <div class="glass card">
-          <div class="small text-white/80" id="pricingHeader">Pricing</div>
-          <div id="pricingCopy" class="small mt-2">
-            <strong>Profile Decorations</strong><br/>
-            Unlike Nitro claims, these are gifts (purchased legally).<br/><br/>
-            <em>Price per decoration</em><br/>
-            • £0.80 random avatar (PFP) decoration<br/>
-            • £0.80 random profile effect<br/>
-            • £0.80 random nameplate<br/><br/>
-            <em>Specific decorations</em><br/>
-            • £1 → £4.99 decoration<br/>
-            • £1.10 → £5.99 decoration<br/>
-            • £1.20 → £6.99 decoration<br/>
-            • £1.75 → £7.99 decoration<br/>
-            • £2 → £8.49 decoration<br/>
-            • £3.25 → £9.99 decoration<br/>
-            • £4 → £11.99 decoration
-          </div>
+          <h3 class="text-xl font-bold">Purchase</h3>
+          <div id="pricingCopy" class="small mt-2"></div>
 
-          <div class="mt-6 space-y-3">
-            <label class="small block">Discord username</label>
-            <input id="discordUsername" placeholder="@yourname" class="w-full bg-neutral-900/40 border border-white/10 rounded-lg px-3 py-2" />
+          <div class="grid sm:grid-cols-2 gap-4 mt-4">
+            <div class="glass p-4 rounded-xl">
+              <div class="small">Discord username</div>
+              <input id="discordUsername" placeholder="@yourname" class="mt-2 w-full bg-neutral-900/40 border border-white/10 rounded-lg px-3 py-2" />
+            </div>
 
-            <div id="optionArea" class="space-y-2 mt-2"></div>
-
-            <div class="grid grid-cols-2 gap-3 mt-3">
-              <div>
-                <label class="small block">Quantity</label>
-                <input id="qty" type="number" min="1" value="1" class="w-full bg-neutral-900/40 border border-white/10 rounded-lg px-3 py-2" />
+            <div class="glass p-4 rounded-xl">
+              <div class="small">Coin</div>
+              <div id="coinPills" class="flex gap-2 mt-2">
+                <button type="button" class="coin-pill active" data-coin="btc">BTC</button>
+                <button type="button" class="coin-pill" data-coin="eth">ETH</button>
+                <button type="button" class="coin-pill" data-coin="ltc">LTC</button>
               </div>
-              <div>
-                <label class="small block">Coin</label>
-                <div id="coinPills" class="flex gap-2 mt-1">
-                  <button type="button" class="coin-pill active" data-coin="btc">BTC</button>
-                  <button type="button" class="coin-pill" data-coin="eth">ETH</button>
-                  <button type="button" class="coin-pill" data-coin="ltc">LTC</button>
+              <input type="hidden" id="coin" value="btc" />
+            </div>
+
+            <div class="glass p-4 rounded-xl sm:col-span-2" id="optionTile">
+              <div class="small">Option / Quantity</div>
+              <div id="optionArea" class="mt-2"></div>
+              <div class="grid grid-cols-2 gap-3 mt-2">
+                <div>
+                  <label class="small block">Qty</label>
+                  <input id="qty" type="number" min="1" value="1" class="w-full bg-neutral-900/40 border border-white/10 rounded-lg px-3 py-2" />
                 </div>
-                <input type="hidden" id="coin" value="btc" />
+                <div class="small">
+                  <div>Item price: <span id="unitPrice">£0.80</span></div>
+                  <div class="mt-1">Total (GBP): <strong id="totalGBP">£0.80</strong></div>
+                  <div class="mt-1">Approx crypto: <strong id="cryptoAmt">—</strong></div>
+                </div>
               </div>
-            </div>
-
-            <div class="mt-4 small text-white/80">
-              <div>Item price: <span id="unitPrice">£0.80</span></div>
-              <div class="mt-1">Total (GBP): <strong id="totalGBP">£0.80</strong></div>
-              <div class="mt-1">Approx crypto: <strong id="cryptoAmt">—</strong></div>
-            </div>
-
-            <div class="mt-5">
-              <button id="buyNowBtn" class="btn btn-buy w-full">Buy Now</button>
-            </div>
-
-            <div id="buyStatus" class="mt-3 small text-white/60">
-              After sending the exact amount, click <strong>I Sent the Payment</strong>. We’ll verify on Blockchair and deliver.
+              <button id="buyNowBtn" class="btn btn-buy w-full mt-3">Buy Now</button>
+              <div id="buyStatus" class="mt-2 small text-white/60">After paying, click <b>I Sent the Payment</b> on the invoice to auto-verify.</div>
             </div>
           </div>
         </div>
 
-        <!-- Right: Payment card -->
+        <!-- Right: invoice styled like token-gen -->
         <aside class="glass card">
-          <h3 class="text-lg font-bold">Payment Card</h3>
-          <p class="small text-white/70 mt-1">Your invoice will show here after clicking Buy Now.</p>
-          <div id="paymentArea" class="mt-6 small text-white/50">No invoice created yet.</div>
+          <h3 class="text-lg font-bold">Payment</h3>
+          <div id="paymentArea" class="mt-3 small text-white/60">No invoice created yet.</div>
         </aside>
       </div>
     </div>
   </section>
 
-  <!-- FAQ + Discord CTA -->
+  <!-- FAQ -->
   <section id="faq" class="py-12 border-t border-white/5">
-    <div class="max-w-5xl mx-auto px-4"><h2 class="text-2xl font-extrabold">FAQ</h2></div>
+    <div class="max-w-5xl mx-auto px-4">
+      <h2 class="text-2xl font-extrabold">FAQ</h2>
+      <div class="mt-4 space-y-3">
+        <details class="glass p-4" open>
+          <summary class="font-semibold cursor-pointer">How fast do credits/items arrive?</summary>
+          <p class="mt-2 text-white/70">
+            Once your payment is confirmed on-chain, we deliver to your Discord ID. “I Sent the Payment”
+            You should receive a DM from the bot with your order. Any issues then open a ticket.
+          </p>
+        </details>
+        <details class="glass p-4">
+          <summary class="font-semibold cursor-pointer">Which Crypto Currency's are supported?</summary>
+          <p class="mt-2 text-white/70">
+            BTC, ETH, LTC. We estimate amounts using live rates—always send the amount shown on the invoice.
+          </p>
+        </details>
+      </div>
+    </div>
   </section>
+
   <section id="discord" class="py-12 border-t border-white/5 text-center">
     <div class="max-w-4xl mx-auto px-4">
       <h2 class="text-2xl font-extrabold">Join the Discord</h2>
@@ -223,9 +221,7 @@
 
   <script>
     // ===== API endpoints =====
-    // If you added a Route on Cloudflare: use "https://xsync69.me"
-    // Otherwise use your workers.dev base (e.g. "https://x69-verifier.<sub>.workers.dev")
-    const API_BASE   = "https://x69-verifier.lewischeron.workers.dev"; // <-- change if needed
+    const API_BASE   = "https://x69-verifier.lewischeron.workers.dev"; // or your workers.dev base
     const ORDER_URL  = API_BASE + "/order-created";
     const VERIFY_URL = API_BASE + "/report-and-verify";
 
@@ -343,33 +339,27 @@
     qtyEl.addEventListener('input', updateUI);
 
     function renderInvoice({invoiceId, discordUsername, product, optionLabel, qty, unitGBP, totalGBP, coin, cryptoStr, address}){
-      const el=document.createElement('div'); el.className='discord-embed';
+      const el=document.createElement('div'); el.className='glass p-4 rounded-xl';
       el.innerHTML = `
-        <div class="embed-left">x69</div>
-        <div class="embed-right">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div style="font-weight:700">x69 Payments</div>
-            <div style="font-size:.9rem;color:rgba(255,255,255,.7)">Invoice • ${invoiceId}</div>
+        <div class="mon">
+          <div class="text-white/80">Invoice • <span class="text-white/60">${invoiceId}</span></div>
+          <div class="mt-2"><strong>Discord:</strong> ${discordUsername}</div>
+          <div class="mt-1"><strong>Product:</strong> ${product}</div>
+          <div class="mt-1"><strong>Option:</strong> ${optionLabel}</div>
+          <div class="mt-1"><strong>Qty:</strong> ${qty}</div>
+          <div class="mt-1"><strong>Item price:</strong> £${unitGBP.toFixed(2)}</div>
+          <div class="mt-1"><strong>Total (GBP):</strong> £${totalGBP.toFixed(2)}</div>
+          <div class="mt-1"><strong>Amount:</strong> <span>${cryptoStr}</span></div>
+          <div class="mt-1"><strong>Send to:</strong> <span>${address}</span></div>
+          <div class="mt-3 flex gap-2 flex-wrap">
+            <button class="copy-btn" id="copyAmountBtn">Copy amount</button>
+            <button class="copy-btn" id="copyAddrBtn">Copy address</button>
+            <button class="copy-btn" id="openWalletBtn">Open in wallet</button>
+            <button class="copy-btn" id="sentPaymentBtn">I Sent the Payment</button>
           </div>
-          <div style="margin-top:8px" class="mon">
-            <div><strong>Discord:</strong> <span>${discordUsername}</span></div>
-            <div style="margin-top:6px"><strong>Product:</strong> ${product}</div>
-            <div style="margin-top:6px"><strong>Option:</strong> ${optionLabel}</div>
-            <div style="margin-top:6px"><strong>Qty:</strong> ${qty}</div>
-            <div style="margin-top:6px"><strong>Item price:</strong> £${unitGBP.toFixed(2)}</div>
-            <div style="margin-top:6px"><strong>Total (GBP):</strong> £${totalGBP.toFixed(2)}</div>
-            <div style="margin-top:6px"><strong>Amount:</strong> <span id="cryptoAmountText">${cryptoStr}</span></div>
-            <div style="margin-top:8px"><strong>Send to:</strong> <span id="addrText">${address}</span></div>
-            <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
-              <button class="copy-btn" id="copyAmountBtn">Copy amount</button>
-              <button class="copy-btn" id="copyAddrBtn">Copy address</button>
-              <button class="copy-btn" id="openWalletBtn">Open in wallet</button>
-              <button class="copy-btn" id="sentPaymentBtn">I Sent the Payment</button>
-            </div>
-            <div id="awaitRow" style="margin-top:12px;display:flex;align-items:center;gap:12px">
-              <div class="spinner-wrap"><div class="spinner"></div><div class="spinner-halo"></div></div>
-              <div id="awaitText" style="color:rgba(255,255,255,.85)">Awaiting transfer… we’ll verify with Blockchair after you click the button.</div>
-            </div>
+          <div class="mt-3 flex items-center gap-3">
+            <div class="spinner-wrap"><div class="spinner"></div><div class="spinner-halo"></div></div>
+            <div id="awaitText" class="small">Awaiting transfer… click the button after you send.</div>
           </div>
         </div>`;
       const copyAmountBtn=el.querySelector('#copyAmountBtn');
@@ -443,8 +433,8 @@
     });
 
     document.getElementById('year').textContent = new Date().getFullYear();
-    renderOptions(); updateUI(); fetchRates(); setInterval(fetchRates, 60000);
+    function init(){ renderOptions(); updateUI(); fetchRates(); setInterval(fetchRates, 60000); }
+    init();
   </script>
 </body>
 </html>
-
